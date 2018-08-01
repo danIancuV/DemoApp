@@ -13,29 +13,37 @@ namespace FileClassLibrary.FileServiceModel
 
         public void FileDbUpload(string fileName)
         {
-            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp-master\\TextFileDemoApp\\bin\\Debug\\";
-            var db = new FiledbEntities();
+            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
 
-            var fileModel = new SerializedFileDto
+            if (File.Exists(LOCALPATHROOTH))
             {
-                Name = fileName.Split('.')[0],
-                Extension = ".txt",
-            };
+                var db = new FiledbEntities();
 
-            string localPath = $@"{LOCALPATHROOTH}{fileModel.Name}{fileModel.Extension}";
+                var fileModel = new SerializedFileDto
+                {
+                    Name = fileName.Split('.')[0],
+                    Extension = ".txt",
+                };
 
-            fileModel.FileContent = File.ReadAllText(localPath);
+                string localPath = $@"{LOCALPATHROOTH}{fileModel.Name}{fileModel.Extension}";
 
-            var file = SerializedFileDto.MapTo(fileModel);
+                fileModel.FileContent = File.ReadAllText(localPath);
 
-            db.SerializedFiles.Add(file);
-            db.SaveChanges();
+                var file = SerializedFileDto.MapTo(fileModel);
+
+                db.SerializedFiles.Add(file);
+                db.SaveChanges();
+            }
+            else
+            {
+                MessageBox.Show(@"File not found in dB!");             
+            }
         }
 
         public void ZipFileDbDownload(List<SerializedFile> checkedItemsList)
         {
 
-            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp-master\\Serialized dB downloaded\\Files.zip";
+            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\Files.zip";
 
             string zipPath =$@"{LOCALPATHROOTH}";
 
@@ -72,41 +80,47 @@ namespace FileClassLibrary.FileServiceModel
         {
             var db = new FiledbEntities();
             int i = 0;
-            foreach (var file in checkedItemsList)
+
+            if (checkedItemsList.Count != 0)
             {
-                var checkedfileName = file.Name;
-                var checkedfileExt = ".txt";
-                var localPath =
-                    $@"D:\\App\\TextFileDemoApp-master\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
-                var dbFile = db.SerializedFiles.FirstOrDefault(x =>
-                    x.Name == checkedfileName);
-                if ((dbFile != null) && (File.Exists(localPath)))
+                do
                 {
-                    db.SerializedFiles.Remove(dbFile);
-                    db.SaveChanges();
-                    checkedItemsList.Remove(file);
-                    File.Delete(localPath);
-                    MessageBox.Show(@"Local and Db file deleted");
-                    return;
-                }
-                else if (dbFile == null)
-                {
-                    File.Delete(localPath);
-                    MessageBox.Show(@"Local file deleted / dB file not found");
-                    return;
-                }
-                else
-                {
-                    db.SerializedFiles.Remove(dbFile);
-                    db.SaveChanges();
-                    checkedItemsList.Remove(file);
-                    MessageBox.Show(@"Local file not found / dB file deleted");
-                    return;
-                }
+                    var checkedfileName = checkedItemsList[i].Name;
+                    var checkedfileExt = ".txt";
+                    var localPath =
+                        $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
+                    var dbFile = db.SerializedFiles.FirstOrDefault(x =>
+                        x.Name == checkedfileName);
+                    if ((dbFile != null) && (File.Exists(localPath)))
+                    {
+                        db.SerializedFiles.Remove(dbFile);
+                        db.SaveChanges();
+                        checkedItemsList.Remove(checkedItemsList[i]);
+                        File.Delete(localPath);
+                        MessageBox.Show(@"Local and Db file deleted");
+
+                    }
+                    else if (dbFile == null)
+                    {
+                        File.Delete(localPath);
+                        MessageBox.Show(@"Local file deleted / dB file not found");
+
+                    }
+                    else
+                    {
+                        db.SerializedFiles.Remove(dbFile);
+                        db.SaveChanges();
+                        checkedItemsList.Remove(checkedItemsList[i]);
+                        MessageBox.Show(@"Local file not found / dB file deleted");
+
+                    }
+                } while (i < checkedItemsList.Count);
             }
+
+            else
             {
-                
-            } while (i < checkedItemsList.Count);
+                MessageBox.Show(@"Please select a file to delete");
+            }
         }
 
         public void PrintMessage(string text)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations.Infrastructure;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using FileClassLibrary;
 using FileClassLibrary.FileServiceModel;
@@ -65,40 +66,40 @@ namespace TextFileDemoApp
 
             int checkedItemsNb = GetCheckedItemsNo();
 
-            //if (checkedItemsNb == 1)
-            //{
+            if (checkedItemsNb == 1)
+            {
 
-            //    int checkedItemIndex = fileGridView.SelectedCells[0].RowIndex;
-            //    DataGridViewRow selectedRow = fileGridView.Rows[checkedItemIndex];
+                int checkedItemIndex = fileGridView.SelectedCells[0].RowIndex;
+                DataGridViewRow selectedRow = fileGridView.Rows[checkedItemIndex];
 
-            //    var checkedItem = Convert.ToString(selectedRow.Cells["FileName"].Value);
-            //    var checkedExt = Convert.ToString(selectedRow.Cells["DownloadFormat"].Value);
+                var checkedItem = Convert.ToString(selectedRow.Cells["FileName"].Value);
+                var checkedExt = Convert.ToString(selectedRow.Cells["DownloadFormat"].Value);
 
-            //    string LOCALPATHROOTH = $@"D:\\App\\TextFileDemoApp-master\\TextFileDemoApp\\bin\\Debug\\{checkedItem}{LOCALEXTTXT}";
-            //    var checkedItemContent = _fileSelection.ReadFile(checkedItem + LOCALEXTTXT, LOCALPATHROOTH);
-            //    SerializedFile file = _fileSerialization.CreateFile(checkedItem, checkedExt, checkedItemContent);
+                string LOCALPATHROOTH = $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedItem}{LOCALEXTTXT}";
+                var checkedItemContent = _fileSelection.ReadFile(checkedItem + LOCALEXTTXT, LOCALPATHROOTH);
+                SerializedFile file = _fileSerialization.CreateFile(checkedItem, checkedExt, checkedItemContent);
 
-            //    switch (checkedExt)
-            //    {
-            //        case "xml":
-            //            _fileSerialization.XmlSerializeToFile(SerializedFileDto.MapTo(file));
-            //            _fileDbService.PrintMessage("Xml serialized file downloaded");
-            //            break;
-            //        case "json":
-            //            _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
-            //            _fileDbService.PrintMessage("Json serialized file downloaded");
-            //            break;
-            //        case "bin":
-            //            _fileSerialization.BinarySerializeToFile(SerializedFileDto.MapTo(file));
-            //            _fileDbService.PrintMessage("Bin serialized file downloaded");
-            //            break;
-            //        default:
-            //            MessageBox.Show(@"Please select a format to download");
-            //            break;
-            //    }
-            //}
+                switch (checkedExt)
+                {
+                    case "xml":
+                        _fileSerialization.XmlSerializeToFile(SerializedFileDto.MapTo(file));
+                        _fileDbService.PrintMessage("Xml serialized file downloaded");
+                        break;
+                    case "json":
+                        _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
+                        _fileDbService.PrintMessage("Json serialized file downloaded");
+                        break;
+                    case "bin":
+                        _fileSerialization.BinarySerializeToFile(SerializedFileDto.MapTo(file));
+                        _fileDbService.PrintMessage("Bin serialized file downloaded");
+                        break;
+                    default:
+                        MessageBox.Show(@"Please select a format to download");
+                        break;
+                }
+            }
 
-           if (checkedItemsNb >= 1)
+            if (checkedItemsNb > 1)
             {
                 var checkedItemsList = GetCheckedItemsList();
 
@@ -166,29 +167,22 @@ namespace TextFileDemoApp
             List<SerializedFile> checkedItemsList = new List<SerializedFile>();
 
             foreach (DataGridViewRow row in fileGridView.Rows)
-            {
-                const string LOCALEXTTXT = ".txt";
+            {         
                 bool isChecked = (bool) row.Cells[1].EditedFormattedValue;
                 string checkedItem = (string) row.Cells[0].EditedFormattedValue;
                 string checkedExt = (string) row.Cells[2].EditedFormattedValue;
 
-                string LOCALPATHROOTH =
-                    $@"D:\\App\\TextFileDemoApp-master\\TextFileDemoApp\\bin\\Debug\\{checkedItem}{LOCALEXTTXT}";
-
-                if ((isChecked) && (File.Exists(LOCALPATHROOTH)))
+                if (isChecked)
                 {
-                    var checkedItemContent = _fileSelection.ReadFile(checkedItem + LOCALEXTTXT, LOCALPATHROOTH);
+                    var db = new FiledbEntities();
+                    var checkedItemContent = (db.SerializedFiles.FirstOrDefault(x =>
+                        x.Name == checkedItem))?.FileContent;
 
                     SerializedFile file =
                         _fileSerialization.CreateFile(checkedItem, "." + checkedExt, checkedItemContent);
                     checkedItemsList.Add(file);
                 }
-                else if (isChecked == false)
-                    MessageBox.Show(@"Please select a file to download");
-                else
-                {
-                    MessageBox.Show(@"Local file not found");
-                }    
+
             }
             return checkedItemsList;
         }

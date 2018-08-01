@@ -20,7 +20,7 @@ namespace FileClassLibrary.FileServiceModel
         public SerializedFile XmlSerializeToFile(SerializedFileDto file)
         {
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(SerializedFileDto));
-            var path = $@"D:\\App\\TextFileDemoApp-master\\Serialized dB downloaded\\{file.Name}{file.Extension}";
+            var path = $@"D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\{file.Name}{file.Extension}";
             var localFile = File.Create(path);
             serializer.Serialize(localFile, file);
             localFile.Close();
@@ -36,7 +36,7 @@ namespace FileClassLibrary.FileServiceModel
         public SerializedFile JsonSerializeToFile(SerializedFileDto file)
         {
             var serializer = new JsonSerializer();
-            var path = $@"D:\\App\\TextFileDemoApp-master\\Serialized dB downloaded\\{file.Name}{file.Extension}";
+            var path = $@"D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\{file.Name}{file.Extension}";
             using (var fileStream = new StreamWriter(path))
             {
                 using (var writer = new JsonTextWriter(fileStream))
@@ -54,7 +54,7 @@ namespace FileClassLibrary.FileServiceModel
 
         public SerializedFile BinarySerializeToFile(SerializedFileDto file)
         {
-            var path = $@"D:\\App\\TextFileDemoApp-master\\Serialized dB downloaded\\{file.Name}{file.Extension}";
+            var path = $@"D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\{file.Name}{file.Extension}";
             using (var fileStream = new FileStream(path, FileMode.Create))
             {
                 var serializer = new BinaryFormatter();
