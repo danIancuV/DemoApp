@@ -49,15 +49,23 @@ namespace TextFileDemoApp
 
         private void BtnFileDbUpload(object sender, EventArgs e)
         {
-            _fileDbService.FileDbUpload(fileNameBox.Text);
-            _fileDbService.PrintMessage("Upload");
+
+            bool isUploaded = _fileDbService.FileDbUpload(fileNameBox.Text);
+            if (isUploaded)
+            {
+                _fileDbService.PrintMessage("Upload");
+            }
+            else
+            {
+                MessageBox.Show(@"Local file not found");
+                return;
+            }
 
             DbGridDataLoading();
         }
 
         private void BtnDbDownload(object sender, EventArgs e)
         {
-            const string LOCALEXTTXT = ".txt";
             if (fileGridView.Rows.Count == 0)
             {
                 MessageBox.Show(@"Please upload a file to dB!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -73,23 +81,25 @@ namespace TextFileDemoApp
                 DataGridViewRow selectedRow = fileGridView.Rows[checkedItemIndex];
 
                 var checkedItem = Convert.ToString(selectedRow.Cells["FileName"].Value);
-                var checkedExt = Convert.ToString(selectedRow.Cells["DownloadFormat"].Value);
+                var checkedExt = "." + Convert.ToString(selectedRow.Cells["DownloadFormat"].Value);
 
-                string LOCALPATHROOTH = $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedItem}{LOCALEXTTXT}";
-                var checkedItemContent = _fileSelection.ReadFile(checkedItem + LOCALEXTTXT, LOCALPATHROOTH);
+                var db = new FiledbEntities();
+                var checkedItemContent = db.SerializedFiles.FirstOrDefault(x =>
+                    x.Name == checkedItem)?.FileContent;
+
                 SerializedFile file = _fileSerialization.CreateFile(checkedItem, checkedExt, checkedItemContent);
 
                 switch (checkedExt)
                 {
-                    case "xml":
+                    case ".xml":
                         _fileSerialization.XmlSerializeToFile(SerializedFileDto.MapTo(file));
                         _fileDbService.PrintMessage("Xml serialized file downloaded");
                         break;
-                    case "json":
+                    case ".json":
                         _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
                         _fileDbService.PrintMessage("Json serialized file downloaded");
                         break;
-                    case "bin":
+                    case ".bin":
                         _fileSerialization.BinarySerializeToFile(SerializedFileDto.MapTo(file));
                         _fileDbService.PrintMessage("Bin serialized file downloaded");
                         break;
@@ -99,7 +109,7 @@ namespace TextFileDemoApp
                 }
             }
 
-            if (checkedItemsNb > 1)
+            else if (checkedItemsNb > 1)
             {
                 var checkedItemsList = GetCheckedItemsList();
 
@@ -132,10 +142,10 @@ namespace TextFileDemoApp
 
                 _fileDbService.ZipFileDbDownload(serializedItemsList);
             }
-
             else
             {
-                MessageBox.Show(@"Please select at list a file to download");
+                MessageBox.Show(@"Please select a file to download");
+                return;
             }
         }
 
@@ -167,10 +177,10 @@ namespace TextFileDemoApp
             List<SerializedFile> checkedItemsList = new List<SerializedFile>();
 
             foreach (DataGridViewRow row in fileGridView.Rows)
-            {         
-                bool isChecked = (bool) row.Cells[1].EditedFormattedValue;
-                string checkedItem = (string) row.Cells[0].EditedFormattedValue;
-                string checkedExt = (string) row.Cells[2].EditedFormattedValue;
+            {
+                bool isChecked = (bool)row.Cells[1].EditedFormattedValue;
+                string checkedItem = (string)row.Cells[0].EditedFormattedValue;
+                string checkedExt = (string)row.Cells[2].EditedFormattedValue;
 
                 if (isChecked)
                 {

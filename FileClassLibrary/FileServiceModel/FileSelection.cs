@@ -13,21 +13,28 @@ namespace FileClassLibrary.FileServiceModel
             {
                 return Path.GetFileName(openFd.FileName);
             }
-
+            
             return null;
         }
 
         public string ReadFile(string file, string path)
         {
-            using (var stream = File.OpenRead(path))
+
+            if (File.Exists(path))
             {
-                using (var reader = new StreamReader(stream))
+                using (var stream = File.OpenRead(path))
                 {
-                    string text = reader.ReadToEnd();
-                    return text;
+                    using (var reader = new StreamReader(stream))
+                    {
+                        string text = reader.ReadToEnd();
+                        return text;
+                    }
                 }
             }
-
+            else
+            {
+                return null;
+            }
         }
     }
 }

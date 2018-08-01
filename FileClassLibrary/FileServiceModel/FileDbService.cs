@@ -11,32 +11,31 @@ namespace FileClassLibrary.FileServiceModel
     public class FileDbService
     {
 
-        public void FileDbUpload(string fileName)
+        public bool FileDbUpload(string fileName)
         {
-            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+            string localPath = $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{fileName}";
 
-            if (File.Exists(LOCALPATHROOTH))
+            if (File.Exists(localPath))
             {
                 var db = new FiledbEntities();
 
                 var fileModel = new SerializedFileDto
                 {
                     Name = fileName.Split('.')[0],
-                    Extension = ".txt",
+                    Extension = fileName.Split('.')[1],
+                    FileContent = File.ReadAllText(localPath),
                 };
-
-                string localPath = $@"{LOCALPATHROOTH}{fileModel.Name}{fileModel.Extension}";
-
-                fileModel.FileContent = File.ReadAllText(localPath);
 
                 var file = SerializedFileDto.MapTo(fileModel);
 
                 db.SerializedFiles.Add(file);
                 db.SaveChanges();
+                return true;
             }
             else
             {
-                MessageBox.Show(@"File not found in dB!");             
+                
+                return false;
             }
         }
 
