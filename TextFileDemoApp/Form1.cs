@@ -136,7 +136,7 @@ namespace TextFileDemoApp
                             break;
                         default:
                             MessageBox.Show(@"Please select a format to download");
-                            break;
+                            return;
                     }
                 }
 
@@ -145,7 +145,6 @@ namespace TextFileDemoApp
             else
             {
                 MessageBox.Show(@"Please select a file to download");
-                return;
             }
         }
 

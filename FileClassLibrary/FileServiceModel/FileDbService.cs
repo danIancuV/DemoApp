@@ -13,7 +13,8 @@ namespace FileClassLibrary.FileServiceModel
 
         public bool FileDbUpload(string fileName)
         {
-            string localPath = $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{fileName}";
+            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+            string localPath = $@"{LOCALPATHROOTH}{fileName}";
 
             if (File.Exists(localPath))
             {
@@ -33,15 +34,13 @@ namespace FileClassLibrary.FileServiceModel
                 return true;
             }
             else
-            {
-                
+            {               
                 return false;
             }
         }
 
         public void ZipFileDbDownload(List<SerializedFile> checkedItemsList)
         {
-
             const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\Files.zip";
 
             string zipPath =$@"{LOCALPATHROOTH}";
@@ -115,7 +114,6 @@ namespace FileClassLibrary.FileServiceModel
                     }
                 } while (i < checkedItemsList.Count);
             }
-
             else
             {
                 MessageBox.Show(@"Please select a file to delete");
