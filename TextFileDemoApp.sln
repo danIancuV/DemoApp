@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextFileDemoApp", "TextFile
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileClassLibrary", "FileClassLibrary\FileClassLibrary.csproj", "{FC0A6020-48CD-4827-B879-118017BB8A92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplicationTextFileDemoApp", "WebApplicationTextFileDemoApp\WebApplicationTextFileDemoApp.csproj", "{9DBBF452-2C96-4367-BF5B-63052497B1BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FC0A6020-48CD-4827-B879-118017BB8A92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC0A6020-48CD-4827-B879-118017BB8A92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC0A6020-48CD-4827-B879-118017BB8A92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DBBF452-2C96-4367-BF5B-63052497B1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DBBF452-2C96-4367-BF5B-63052497B1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DBBF452-2C96-4367-BF5B-63052497B1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DBBF452-2C96-4367-BF5B-63052497B1BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,7 +12,7 @@ namespace FileClassLibrary
     using System;
     using System.Collections.Generic;
     
-    public partial class SerializedFile
+    public class SerializedFile
     {
         public int Id { get; set; }
         public string Name { get; set; }
