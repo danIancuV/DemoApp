@@ -10,6 +10,28 @@ namespace FileClassLibrary.FileServiceModel
 
     public class FileDbService
     {
+        public bool FileLocalCreate(SerializedFileDto file)
+        {
+            if (file != null)
+            {
+                string path =
+                    $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{file.Name}{file.Extension}";
+                using (var fileStream = new StreamWriter(path))
+                {
+                    {
+                        fileStream.Write(file.FileContent);
+                        fileStream.Close();
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
 
         public bool FileDbUpload(string fileName)
         {

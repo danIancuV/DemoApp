@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace FileClassLibrary
 {
@@ -7,8 +8,11 @@ namespace FileClassLibrary
     {
         
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string FileContent { get; set; }
+        [Required]
         public string Extension { get; set; }
 
         public static SerializedFileDto MapTo(SerializedFile file)
