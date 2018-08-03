@@ -98,7 +98,7 @@ namespace FileClassLibrary.FileServiceModel
             return false;
         }
 
-        public void FileDelete(List<SerializedFile> checkedItemsList)
+        public bool FileDelete(List<SerializedFile> checkedItemsList)
         {
             var db = new FiledbEntities();
             int i = 0;
@@ -108,7 +108,7 @@ namespace FileClassLibrary.FileServiceModel
                 do
                 {
                     var checkedfileName = checkedItemsList[i].Name;
-                    var checkedfileExt = checkedItemsList[i].Extension;
+                    var checkedfileExt = ".txt";
                     var localPath =
                         $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
                     var dbFile = db.SerializedFiles.FirstOrDefault(x =>
@@ -119,13 +119,13 @@ namespace FileClassLibrary.FileServiceModel
                         db.SaveChanges();
                         checkedItemsList.Remove(checkedItemsList[i]);
                         File.Delete(localPath);
-                        //MessageBox.Show(@"Local and Db file deleted");
+                        return true;
 
                     }
                     else if (dbFile == null)
                     {
                         File.Delete(localPath);
-                        //MessageBox.Show(@"Local file deleted / dB file not found");
+                        return true;
 
                     }
                     else
@@ -133,16 +133,13 @@ namespace FileClassLibrary.FileServiceModel
                         db.SerializedFiles.Remove(dbFile);
                         db.SaveChanges();
                         checkedItemsList.Remove(checkedItemsList[i]);
-                        //MessageBox.Show(@"Local file not found / dB file deleted");
+                        return false;
 
                     }
                 } while (i < checkedItemsList.Count);
+                
             }
-            else
-            {
-                //MessageBox.Show(@"Please select a file to delete");
-            }
+            return false;
         }
-
     }
 }

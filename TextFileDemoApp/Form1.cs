@@ -105,15 +105,15 @@ namespace TextFileDemoApp
                 {
                     case ".xml":
                         _fileSerialization.XmlSerializeToFile(SerializedFileDto.MapTo(file));
-                        MessageBox.Show("Xml serialized file downloaded");
+                        MessageBox.Show(@"Xml serialized file downloaded");
                         break;
                     case ".json":
                         _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
-                        MessageBox.Show("Json serialized file downloaded");
+                        MessageBox.Show(@"Json serialized file downloaded");
                         break;
                     case ".bin":
                         _fileSerialization.BinarySerializeToFile(SerializedFileDto.MapTo(file));
-                        MessageBox.Show("Bin serialized file downloaded");
+                        MessageBox.Show(@"Bin serialized file downloaded");
                         break;
                     default:
                         MessageBox.Show(@"Please select a format to download");
@@ -173,10 +173,20 @@ namespace TextFileDemoApp
         private void BtnDelete(object sender, EventArgs e)
         {
             var checkedItemsList = GetCheckedItemsList();
-            _fileDbService.FileDelete(checkedItemsList);
+
+            bool isDeleted = _fileDbService.FileDelete(checkedItemsList);
+            if (isDeleted)
+            {
+                MessageBox.Show(@"File Deleted");
+            }
+            else
+            {
+                MessageBox.Show(@"Please select a file");
+            }
+
             DbGridDataLoading();
         }
-
+            
         public int GetCheckedItemsNo()
         {
             int checkedItemsNo = 0;

@@ -7,8 +7,10 @@ D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\bin\Debug\netcoreapp2.1\Web
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\bin\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.Views.dll
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\bin\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.Views.pdb
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\bin\Debug\netcoreapp2.1\FileClassLibrary.dll
+D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\bin\Debug\netcoreapp2.1\EntityFramework.dll
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\bin\Debug\netcoreapp2.1\FileClassLibrary.pdb
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\bin\Debug\netcoreapp2.1\FileClassLibrary.dll.config
+D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\bin\Debug\netcoreapp2.1\EntityFramework.xml
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.csprojAssemblyReference.cache
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.csproj.CoreCompileInputs.cache
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.RazorAssemblyInfo.cache
@@ -39,5 +41,3 @@ D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Web
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.csproj.CopyComplete
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.dll
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.pdb
-D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\bin\Debug\netcoreapp2.1\EntityFramework.dll
-D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\bin\Debug\netcoreapp2.1\EntityFramework.xml
