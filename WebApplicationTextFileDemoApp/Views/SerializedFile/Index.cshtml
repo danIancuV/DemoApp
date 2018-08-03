@@ -1,0 +1,68 @@
+﻿@using System
+@using System.Collections.Generic
+@using FileClassLibrary.FileServiceModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.EntityFrameworkCore.ValueGeneration.Internal
+@model IEnumerable<FileClassLibrary.SerializedFileDto>
+
+@{
+    ViewData["Title"] = "File list";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create file</a>
+</p>
+@using (Html.BeginForm("CheckDelete", "SerializedFile", FormMethod.Post))
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                <p>Select</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Extension)
+            </th>
+            <th>
+                <p>Actions</p>
+            </th>
+            <th>
+                <p>Download format</p>
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" name="ids" id="ids" value="@item.Id">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Extension)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+                <td>
+                    @Html.DropDownList("Download extension",
+                        new SelectList(Enum.GetValues(enumType: typeof(FileExtEnum))))
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <input type="submit" value="Delete selected files" />
+}
+
