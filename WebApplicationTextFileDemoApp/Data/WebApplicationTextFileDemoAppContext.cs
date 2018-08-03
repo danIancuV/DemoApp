@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using FileClassLibrary;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace WebApplicationTextFileDemoApp.Models
+
+
+namespace WebApplicationTextFileDemoApp.Data
 {
     public class WebApplicationTextFileDemoAppContext : DbContext
     {

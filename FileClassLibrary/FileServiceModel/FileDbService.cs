@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace FileClassLibrary.FileServiceModel
 {
@@ -61,7 +60,7 @@ namespace FileClassLibrary.FileServiceModel
             }
         }
 
-        public void ZipFileDbDownload(List<SerializedFile> checkedItemsList)
+        public bool ZipFileDbDownload(List<SerializedFile> checkedItemsList)
         {
             const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\Files.zip";
 
@@ -71,8 +70,8 @@ namespace FileClassLibrary.FileServiceModel
             {
                 if (file == null)
                 {
-                    MessageBox.Show(@"File not found in dB!");
-                    return;
+                    
+                    return false;
                 }
 
                 else
@@ -87,13 +86,16 @@ namespace FileClassLibrary.FileServiceModel
                             {
                                 writer.Write(file.FileContent);
                                 writer.Close();
+                                return true;
                             }
                         }
                     }
 
-                    PrintMessage("Download and zip complete");
+                    
                 }
             }
+
+            return false;
         }
 
         public void FileDelete(List<SerializedFile> checkedItemsList)
@@ -106,7 +108,7 @@ namespace FileClassLibrary.FileServiceModel
                 do
                 {
                     var checkedfileName = checkedItemsList[i].Name;
-                    var checkedfileExt = ".txt";
+                    var checkedfileExt = checkedItemsList[i].Extension;
                     var localPath =
                         $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
                     var dbFile = db.SerializedFiles.FirstOrDefault(x =>
@@ -117,13 +119,13 @@ namespace FileClassLibrary.FileServiceModel
                         db.SaveChanges();
                         checkedItemsList.Remove(checkedItemsList[i]);
                         File.Delete(localPath);
-                        MessageBox.Show(@"Local and Db file deleted");
+                        //MessageBox.Show(@"Local and Db file deleted");
 
                     }
                     else if (dbFile == null)
                     {
                         File.Delete(localPath);
-                        MessageBox.Show(@"Local file deleted / dB file not found");
+                        //MessageBox.Show(@"Local file deleted / dB file not found");
 
                     }
                     else
@@ -131,20 +133,16 @@ namespace FileClassLibrary.FileServiceModel
                         db.SerializedFiles.Remove(dbFile);
                         db.SaveChanges();
                         checkedItemsList.Remove(checkedItemsList[i]);
-                        MessageBox.Show(@"Local file not found / dB file deleted");
+                        //MessageBox.Show(@"Local file not found / dB file deleted");
 
                     }
                 } while (i < checkedItemsList.Count);
             }
             else
             {
-                MessageBox.Show(@"Please select a file to delete");
+                //MessageBox.Show(@"Please select a file to delete");
             }
         }
 
-        public void PrintMessage(string text)
-            {
-                MessageBox.Show($@"{text} completed successfully");
-            }
     }
 }

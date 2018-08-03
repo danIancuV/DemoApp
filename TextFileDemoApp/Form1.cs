@@ -43,8 +43,20 @@ namespace TextFileDemoApp
         private void ButtonBrowseFile_Click(object sender, EventArgs e)
         {
             button6.Enabled = true;
-            fileNameBox.Text = _fileSelection.BrowseFile();
+            fileNameBox.Text = BrowseFile();
             fileNameBox.ReadOnly = true;
+
+            string BrowseFile()
+            {
+                OpenFileDialog openFd = new OpenFileDialog();
+
+                if (openFd.ShowDialog() == DialogResult.OK)
+                {
+                    return Path.GetFileName(openFd.FileName);
+                }
+
+                return null;
+            }
         }
 
         private void BtnFileDbUpload(object sender, EventArgs e)
@@ -53,7 +65,7 @@ namespace TextFileDemoApp
             bool isUploaded = _fileDbService.FileDbUpload(fileNameBox.Text);
             if (isUploaded)
             {
-                _fileDbService.PrintMessage("Upload");
+                MessageBox.Show(@"Upload done");
             }
             else
             {
@@ -93,15 +105,15 @@ namespace TextFileDemoApp
                 {
                     case ".xml":
                         _fileSerialization.XmlSerializeToFile(SerializedFileDto.MapTo(file));
-                        _fileDbService.PrintMessage("Xml serialized file downloaded");
+                        MessageBox.Show("Xml serialized file downloaded");
                         break;
                     case ".json":
                         _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
-                        _fileDbService.PrintMessage("Json serialized file downloaded");
+                        MessageBox.Show("Json serialized file downloaded");
                         break;
                     case ".bin":
                         _fileSerialization.BinarySerializeToFile(SerializedFileDto.MapTo(file));
-                        _fileDbService.PrintMessage("Bin serialized file downloaded");
+                        MessageBox.Show("Bin serialized file downloaded");
                         break;
                     default:
                         MessageBox.Show(@"Please select a format to download");
@@ -122,17 +134,17 @@ namespace TextFileDemoApp
                         case ".xml":
                             SerializedFile xmlSerializedFile = _fileSerialization.XmlSerializeToFile(SerializedFileDto.MapTo(file));
                             serializedItemsList.Add(xmlSerializedFile);
-                            _fileDbService.PrintMessage("Xml serialized file downloaded");
+                            
                             break;
                         case ".json":
                             SerializedFile jsonSerializedFile = _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
                             serializedItemsList.Add(jsonSerializedFile);
-                            _fileDbService.PrintMessage("Json serialized file downloaded");
+                            
                             break;
                         case ".bin":
                             SerializedFile binSerializedFile = _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
                             serializedItemsList.Add(binSerializedFile);
-                            _fileDbService.PrintMessage("Bin serialized file downloaded");
+                            
                             break;
                         default:
                             MessageBox.Show(@"Please select a format to download");
@@ -140,7 +152,17 @@ namespace TextFileDemoApp
                     }
                 }
 
-                _fileDbService.ZipFileDbDownload(serializedItemsList);
+                bool isDownloaded = _fileDbService.ZipFileDbDownload(serializedItemsList);
+                if (isDownloaded)
+                {
+                    MessageBox.Show(@"Zip download done");
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show(@"Please Select a file to download");
+                    return;
+                }
             }
             else
             {
@@ -200,5 +222,6 @@ namespace TextFileDemoApp
         {
             Close();
         }
+
     }
 }
