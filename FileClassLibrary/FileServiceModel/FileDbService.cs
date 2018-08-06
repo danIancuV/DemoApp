@@ -55,7 +55,7 @@ namespace FileClassLibrary.FileServiceModel
                 return true;
             }
             else
-            {               
+            {
                 return false;
             }
         }
@@ -64,13 +64,13 @@ namespace FileClassLibrary.FileServiceModel
         {
             const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\Files.zip";
 
-            string zipPath =$@"{LOCALPATHROOTH}";
+            string zipPath = $@"{LOCALPATHROOTH}";
 
             foreach (var file in checkedItemsList)
             {
                 if (file == null)
                 {
-                    
+
                     return false;
                 }
 
@@ -90,8 +90,6 @@ namespace FileClassLibrary.FileServiceModel
                             }
                         }
                     }
-
-                    
                 }
             }
 
@@ -119,25 +117,19 @@ namespace FileClassLibrary.FileServiceModel
                         db.SaveChanges();
                         checkedItemsList.Remove(checkedItemsList[i]);
                         File.Delete(localPath);
-                        return true;
-
                     }
                     else if (dbFile == null)
                     {
                         File.Delete(localPath);
-                        return true;
-
                     }
                     else
                     {
                         db.SerializedFiles.Remove(dbFile);
                         db.SaveChanges();
                         checkedItemsList.Remove(checkedItemsList[i]);
-                        return false;
-
                     }
                 } while (i < checkedItemsList.Count);
-                
+                return true;
             }
             return false;
         }
