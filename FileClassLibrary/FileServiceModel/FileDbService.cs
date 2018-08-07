@@ -70,10 +70,8 @@ namespace FileClassLibrary.FileServiceModel
             {
                 if (file == null)
                 {
-
                     return false;
                 }
-
                 else
                 {
                     using (FileStream zipToOpen = new FileStream(zipPath, FileMode.OpenOrCreate))
@@ -106,7 +104,7 @@ namespace FileClassLibrary.FileServiceModel
                 do
                 {
                     var checkedfileName = checkedItemsList[i].Name;
-                    var checkedfileExt = ".txt";
+                    var checkedfileExt = checkedItemsList[i].Extension;
                     var localPath =
                         $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
                     var dbFile = db.SerializedFiles.FirstOrDefault(x =>

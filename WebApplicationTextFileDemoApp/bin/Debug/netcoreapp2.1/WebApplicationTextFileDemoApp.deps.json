@@ -26,8 +26,6 @@
         "dependencies": {
           "FileClassLibrary": "1.0.0",
           "Microsoft.AspNetCore.App": "2.1.1",
-          "Microsoft.EntityFrameworkCore": "2.1.1",
-          "Microsoft.EntityFrameworkCore.SqlServer": "2.1.1",
           "Microsoft.NETCore.App": "2.1.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.1",
           "System.Configuration.ConfigurationManager": "4.5.0"
@@ -562,7 +560,7 @@
         "runtime": {
           "EntityFramework.dll": {
             "assemblyVersion": "6.0.0.0",
-            "fileVersion": "6.1.40302.0"
+            "fileVersion": "6.2.61023.0"
           }
         }
       },

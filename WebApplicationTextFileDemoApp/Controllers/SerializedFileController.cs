@@ -18,7 +18,9 @@ namespace WebApplicationTextFileDemoApp.Controllers
     {
         private readonly WebApplicationTextFileDemoAppContext _context;
         private readonly FileDbService _fileDbService = new FileDbService();
-    
+        private readonly FileSerialization _fileSerialization = new FileSerialization();
+
+
         public SerializedFileController(WebApplicationTextFileDemoAppContext context)
         {
             _context = context;
@@ -124,12 +126,84 @@ namespace WebApplicationTextFileDemoApp.Controllers
             return View(serializedFile);
         }
 
+        public IActionResult MyAction(string submitButton, IEnumerable<int> ids, IEnumerable<FileExtEnum> ext)
+        {
+            switch (submitButton)
+            {
+                case "CheckDelete":
+                    return CheckDelete(ids);
+                case "DbDownload":
+                    return DbDownload(ids, ext);
+                default:
+                    return (View("Index"));
+            }
+        }
+
+        //Post : SerializedFile/DbDownload
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DbDownload(IEnumerable<int> ids, IEnumerable<FileExtEnum> ext)
+        {
+            List<SerializedFileDto> dtoCheckedFileList = _context.SerializedFile.Where(x => ids.Contains(x.Id)).ToList();
+            List<SerializedFile> checkedFileList = new List<SerializedFile>();
+
+            foreach (SerializedFileDto serializedFileDto in dtoCheckedFileList)
+            {
+                SerializedFile serializedFile = SerializedFileDto.MapTo(serializedFileDto);
+                serializedFile.Extension = "." + ext.ToString();
+                checkedFileList.Add(serializedFile);
+            }
+
+            if (checkedFileList.Count == 0)
+            {
+                return RedirectToAction("CheckDelete");
+            }
+
+            if (checkedFileList.Count == 1)
+            {
+
+                //int checkedItemIndex = fileGridView.SelectedCells[0].RowIndex;
+                //DataGridViewRow selectedRow = fileGridView.Rows[checkedItemIndex];
+
+                //var checkedItem = Convert.ToString(selectedRow.Cells["FileName"].Value);
+                //var checkedExt = "." + Convert.ToString(selectedRow.Cells["DownloadFormat"].Value);
+
+                //var db = new FiledbEntities();
+                //var checkedItemContent = db.SerializedFiles.FirstOrDefault(x =>
+                //    x.Name == checkedItem)?.FileContent;
+
+                //SerializedFile file = _fileSerialization.CreateFile(SerializedFile., checkedExt, checkedItemContent);
+
+                switch (ext)
+                {
+                    //case FileExtEnum.xml:
+                    //    _fileSerialization.XmlSerializeToFile(SerializedFileDto.MapTo(checkedFileList[0]));
+
+                    //case ".json":
+                    //    _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
+                    //    MessageBox.Show(@"Json serialized file downloaded");
+                    //    break;
+                    //case ".bin":
+                    //    _fileSerialization.BinarySerializeToFile(SerializedFileDto.MapTo(file));
+                    //    MessageBox.Show(@"Bin serialized file downloaded");
+                    //    break;
+                    //default:
+                    //    MessageBox.Show(@"Please select a format to download");
+                    //    break;
+                }
+                return RedirectToAction("CheckDelete");
+            }
+
+            return RedirectToAction("CheckDelete");
+        }
+
+
         //POST : SerializedFile/Multipledelete
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public RedirectToActionResult CheckDelete(IEnumerable<int> ids)
+        public IActionResult CheckDelete(IEnumerable<int> ids)
         {
-            List<SerializedFileDto> dtoCheckedFileList = _context.SerializedFile.Where(x => ids.Contains(x.Id)).ToList();
+            List<SerializedFileDto> dtoCheckedFileList =   _context.SerializedFile.Where(x => ids.Contains(x.Id)).ToList();
             List<SerializedFile> checkedFileList = new List<SerializedFile>();
             
             foreach (SerializedFileDto serializedFileDto in dtoCheckedFileList)
@@ -138,8 +212,9 @@ namespace WebApplicationTextFileDemoApp.Controllers
                 checkedFileList.Add(serializedFile);
             }
 
-            _fileDbService.FileDelete(checkedFileList);
-            return RedirectToAction(nameof(Index));
+             _fileDbService.FileDelete(checkedFileList);
+            
+            return View();
         }
 
 
