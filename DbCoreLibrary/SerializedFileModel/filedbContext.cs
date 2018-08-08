@@ -15,7 +15,7 @@ namespace DbCoreLibrary
         {
         }
 
-        public virtual DbSet<DbFile> DbFile { get; set; }
+        public virtual DbSet<SerializedFile> SerializedFile { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,7 +28,7 @@ namespace DbCoreLibrary
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<DbFile>(entity =>
+            modelBuilder.Entity<SerializedFile>(entity =>
             {
                 entity.Property(e => e.Extension).HasMaxLength(10);
 

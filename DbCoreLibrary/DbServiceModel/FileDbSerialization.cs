@@ -7,9 +7,9 @@ namespace DbCoreLibrary.DbServiceModel
     public class FileSerialization
     {
 
-        public DbFile CreateFile(string fileName, string ext, string fileContent)
+        public SerializedFile CreateFile(string fileName, string ext, string fileContent)
         {
-            return new DbFile
+            return new SerializedFile
             {
                 Name = fileName,
                 FileContent = fileContent,
@@ -17,7 +17,7 @@ namespace DbCoreLibrary.DbServiceModel
             };
         }
 
-        public DbFile XmlSerializeToFile(SerialFileDto file)
+        public SerializedFile XmlSerializeToFile(SerialFileDto file)
         {
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(SerialFileDto));
             var path = $@"D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\{file.Name}{file.Extension}";
@@ -27,13 +27,13 @@ namespace DbCoreLibrary.DbServiceModel
            
             var serializedItemContent = ReadFile(file.Name + file.Extension, path);
 
-            DbFile serializedFile =
+            SerializedFile serializedFile =
                 CreateFile(file.Name, file.Extension, serializedItemContent);
 
             return serializedFile;
         }
 
-        public DbFile JsonSerializeToFile(SerialFileDto file)
+        public SerializedFile JsonSerializeToFile(SerialFileDto file)
         {
             var serializer = new JsonSerializer();
             var path = $@"D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\{file.Name}{file.Extension}";
@@ -46,13 +46,13 @@ namespace DbCoreLibrary.DbServiceModel
             }
             var serializedItemContent = ReadFile(file.Name + file.Extension, path);
 
-            DbFile serializedFile =
+            SerializedFile serializedFile =
                 CreateFile(file.Name, file.Extension, serializedItemContent);
 
             return serializedFile;
         }
 
-        public DbFile BinarySerializeToFile(SerialFileDto file)
+        public SerializedFile BinarySerializeToFile(SerialFileDto file)
         {
             var path = $@"D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\{file.Name}{file.Extension}";
             using (var fileStream = new FileStream(path, FileMode.Create))
@@ -62,7 +62,7 @@ namespace DbCoreLibrary.DbServiceModel
             }
             var serializedItemContent = ReadFile(file.Name + file.Extension, path);
 
-            DbFile serializedFile =
+            SerializedFile serializedFile =
                 CreateFile(file.Name, file.Extension, serializedItemContent);
 
             return serializedFile;

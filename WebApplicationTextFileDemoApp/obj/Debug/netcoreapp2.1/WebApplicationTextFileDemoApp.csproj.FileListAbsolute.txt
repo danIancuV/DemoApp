@@ -62,11 +62,11 @@ D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Raz
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.g.cshtml.cs
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.g.cshtml.cs
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.g.cshtml.cs
-D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerializedFile\Create.g.cshtml.cs
-D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerializedFile\Delete.g.cshtml.cs
-D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerializedFile\Details.g.cshtml.cs
-D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerializedFile\Edit.g.cshtml.cs
-D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerializedFile\Index.g.cshtml.cs
+D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerialFile\Create.g.cshtml.cs
+D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerialFile\Delete.g.cshtml.cs
+D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerialFile\Details.g.cshtml.cs
+D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerialFile\Edit.g.cshtml.cs
+D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerialFile\Index.g.cshtml.cs
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.g.cshtml.cs
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.g.cshtml.cs
