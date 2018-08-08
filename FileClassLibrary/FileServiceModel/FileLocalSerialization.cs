@@ -2,7 +2,7 @@
 using System.Runtime.Serialization.Formatters.Binary;
 using Newtonsoft.Json;
 
-namespace DbCoreLibrary.FileServiceModel
+namespace DbCoreLibrary.DbServiceModel
 {
     public class FileLocalSerialization: FileLocalSelection
     {

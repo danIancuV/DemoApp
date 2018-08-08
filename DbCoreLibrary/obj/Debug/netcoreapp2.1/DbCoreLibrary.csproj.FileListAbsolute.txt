@@ -7,3 +7,11 @@ D:\App\TextFileDemoApp-monday-commit-6-august\DbCoreLibrary\obj\Debug\netcoreapp
 D:\App\TextFileDemoApp-monday-commit-6-august\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.dll
 D:\App\TextFileDemoApp-monday-commit-6-august\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.pdb
 D:\App\TextFileDemoApp-monday-commit-6-august\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.csprojAssemblyReference.cache
+D:\App\TextFileDemoApp\DbCoreLibrary\bin\Debug\netcoreapp2.1\DbCoreLibrary.deps.json
+D:\App\TextFileDemoApp\DbCoreLibrary\bin\Debug\netcoreapp2.1\DbCoreLibrary.dll
+D:\App\TextFileDemoApp\DbCoreLibrary\bin\Debug\netcoreapp2.1\DbCoreLibrary.pdb
+D:\App\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.csproj.CoreCompileInputs.cache
+D:\App\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.AssemblyInfoInputs.cache
+D:\App\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.AssemblyInfo.cs
+D:\App\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.dll
+D:\App\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.pdb

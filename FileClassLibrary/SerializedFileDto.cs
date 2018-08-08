@@ -27,14 +27,14 @@ namespace DbCoreLibrary
             };
         }
 
-        public static SerializedFile MapTo(SerializedFileDto fileModel)
+        public static SerializedFile MapTo(SerializedFileDto file)
         {
             return new SerializedFile
             {
-                Id = fileModel.Id,
-                Name = fileModel.Name,
-                FileContent = fileModel.FileContent,
-                Extension = fileModel.Extension
+                Id = file.Id,
+                Name = file.Name,
+                FileContent = file.FileContent,
+                Extension = file.Extension
             };
         }
 

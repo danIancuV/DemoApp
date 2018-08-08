@@ -1,11 +1,9 @@
-﻿using DbCoreLibrary.SerializedFileModel;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 
-namespace DbCoreLibrary.FileServiceModel
+namespace DbCoreLibrary.DbServiceModel
 {
 
     public class FileDbService
@@ -40,7 +38,7 @@ namespace DbCoreLibrary.FileServiceModel
 
             if (File.Exists(localPath))
             {
-                var db = new filedbContext();
+                var db = new FiledbContext();
 
                 var fileModel = new SerialFileDto
                 {
@@ -51,7 +49,7 @@ namespace DbCoreLibrary.FileServiceModel
 
                 var file = SerialFileDto.MapTo(fileModel);
 
-                db.SerializedFiles.Add(file);
+                db.DbFile.Add(file);
                 db.SaveChanges();
                 return true;
             }
@@ -61,7 +59,7 @@ namespace DbCoreLibrary.FileServiceModel
             }
         }
 
-        public bool ZipFileDbDownload(List<SerializedFile> checkedItemsList)
+        public bool ZipFileDbDownload(List<DbFile> checkedItemsList)
         {
             const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\Files.zip";
 
@@ -97,9 +95,9 @@ namespace DbCoreLibrary.FileServiceModel
             return false;
         }
 
-        public bool FileDelete(List<SerializedFile> checkedItemsList)
+        public bool FileDelete(List<DbFile> checkedItemsList)
         {
-            var db = new filedbContext();
+            var db = new FiledbContext();
             int i = 0;
 
             if (checkedItemsList.Count != 0)
@@ -110,11 +108,11 @@ namespace DbCoreLibrary.FileServiceModel
                     var checkedfileExt = ".txt";
                     var localPath =
                         $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
-                    var dbFile = db.SerializedFiles.FirstOrDefault(x =>
+                    var dbFile = db.DbFile.FirstOrDefault(x =>
                         x.Name == checkedfileName);
                     if ((dbFile != null) && (File.Exists(localPath)))
                     {
-                        db.SerializedFiles.Remove(dbFile);
+                        db.DbFile.Remove(dbFile);
                         db.SaveChanges();
                         checkedItemsList.Remove(checkedItemsList[i]);
                         File.Delete(localPath);
@@ -125,7 +123,7 @@ namespace DbCoreLibrary.FileServiceModel
                     }
                     else
                     {
-                        db.SerializedFiles.Remove(dbFile);
+                        db.DbFile.Remove(dbFile);
                         db.SaveChanges();
                         checkedItemsList.Remove(checkedItemsList[i]);
                     }

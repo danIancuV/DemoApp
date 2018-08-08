@@ -1,9 +1,9 @@
 ﻿@using System
 @using System.Collections.Generic
-@using FileClassLibrary.FileServiceModel
+@using DbCoreLibrary.DbServiceModel
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Microsoft.EntityFrameworkCore.ValueGeneration.Internal
-@model IEnumerable<FileClassLibrary.SerializedFileDto>
+@model IEnumerable<DbCoreLibrary.DbFile>
 
 @{
     ViewData["Title"] = "File list";
@@ -57,7 +57,7 @@
                     </td>
                     <td>
                         @Html.DropDownList("Download extension",
-                            new SelectList(Enum.GetValues(enumType: typeof(FileExtEnum))))
+                            new SelectList(Enum.GetValues(enumType: typeof(ExtEnum))))
                     </td>
                 </tr>
             }

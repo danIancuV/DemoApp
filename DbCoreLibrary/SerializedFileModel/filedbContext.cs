@@ -2,20 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace DbCoreLibrary.SerializedFileModel
+namespace DbCoreLibrary
 {
-    public partial class filedbContext : DbContext
+    public partial class FiledbContext : DbContext
     {
-        public filedbContext()
+        public FiledbContext()
         {
         }
 
-        public filedbContext(DbContextOptions<filedbContext> options)
+        public FiledbContext(DbContextOptions<FiledbContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<SerializedFile> SerializedFiles { get; set; }
+        public virtual DbSet<DbFile> DbFile { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,7 +28,7 @@ namespace DbCoreLibrary.SerializedFileModel
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SerializedFile>(entity =>
+            modelBuilder.Entity<DbFile>(entity =>
             {
                 entity.Property(e => e.Extension).HasMaxLength(10);
 

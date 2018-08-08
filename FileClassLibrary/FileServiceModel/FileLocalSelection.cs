@@ -1,7 +1,7 @@
 ﻿using System.IO;
 
 
-namespace DbCoreLibrary.FileServiceModel
+namespace DbCoreLibrary.DbServiceModel
 {
     public class FileLocalSelection
     {

@@ -1,16 +1,15 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using DbCoreLibrary.SerializedFileModel;
 using Newtonsoft.Json;
 
-namespace DbCoreLibrary.FileServiceModel
+namespace DbCoreLibrary.DbServiceModel
 {
     public class FileSerialization
     {
 
-        public SerializedFile CreateFile(string fileName, string ext, string fileContent)
+        public DbFile CreateFile(string fileName, string ext, string fileContent)
         {
-            return new SerializedFile
+            return new DbFile
             {
                 Name = fileName,
                 FileContent = fileContent,
@@ -18,7 +17,7 @@ namespace DbCoreLibrary.FileServiceModel
             };
         }
 
-        public SerializedFile XmlSerializeToFile(SerialFileDto file)
+        public DbFile XmlSerializeToFile(SerialFileDto file)
         {
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(SerialFileDto));
             var path = $@"D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\{file.Name}{file.Extension}";
@@ -28,13 +27,13 @@ namespace DbCoreLibrary.FileServiceModel
            
             var serializedItemContent = ReadFile(file.Name + file.Extension, path);
 
-            SerializedFile serializedFile =
+            DbFile serializedFile =
                 CreateFile(file.Name, file.Extension, serializedItemContent);
 
             return serializedFile;
         }
 
-        public SerializedFile JsonSerializeToFile(SerialFileDto file)
+        public DbFile JsonSerializeToFile(SerialFileDto file)
         {
             var serializer = new JsonSerializer();
             var path = $@"D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\{file.Name}{file.Extension}";
@@ -47,13 +46,13 @@ namespace DbCoreLibrary.FileServiceModel
             }
             var serializedItemContent = ReadFile(file.Name + file.Extension, path);
 
-            SerializedFile serializedFile =
+            DbFile serializedFile =
                 CreateFile(file.Name, file.Extension, serializedItemContent);
 
             return serializedFile;
         }
 
-        public SerializedFile BinarySerializeToFile(SerialFileDto file)
+        public DbFile BinarySerializeToFile(SerialFileDto file)
         {
             var path = $@"D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\{file.Name}{file.Extension}";
             using (var fileStream = new FileStream(path, FileMode.Create))
@@ -63,7 +62,7 @@ namespace DbCoreLibrary.FileServiceModel
             }
             var serializedItemContent = ReadFile(file.Name + file.Extension, path);
 
-            SerializedFile serializedFile =
+            DbFile serializedFile =
                 CreateFile(file.Name, file.Extension, serializedItemContent);
 
             return serializedFile;
