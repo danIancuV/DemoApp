@@ -8,14 +8,14 @@ namespace DbCoreLibrary.DbServiceModel
 
     public class FileDbService
     {
-        
+
         public List<SerialFileDto> GetdBItems()
         {
             List<SerialFileDto> dtoFileList = new List<SerialFileDto>();
-           
+
 
             using (var context = new FiledbContext())
-            {               
+            {
                 var fileList = context.SerializedFile.ToList();
                 foreach (SerializedFile dbfile in fileList)
                 {
@@ -24,50 +24,28 @@ namespace DbCoreLibrary.DbServiceModel
                 }
                 return dtoFileList;
             }
-    
+
         }
 
         public bool FileDelete(List<int> ids)
         {
-            var context = new FiledbContext();
-            
-             List<SerializedFile> checkedFileList = context.SerializedFile.Where(x => ids.Contains(x.Id)).ToList();
-                
-
-          
-            int i = 0;
-
             if (ids.Count == 0)
             {
-                do
-                {
-                    var checkedfileName = checkedFileList[i].Name;
-                    var checkedfileExt = checkedFileList[i].Extension;
-                    var localPath =
-                        $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
-                    var dbFile = context.SerializedFile.FirstOrDefault(x =>
-                        x.Name == checkedfileName);
-                    if ((dbFile != null) && (File.Exists(localPath)))
-                    {
-                        context.SerializedFile.Remove(dbFile);
-                        context.SaveChanges();
-                        checkedFileList.Remove(checkedFileList[i]);
-                        File.Delete(localPath);
-                    }
-                    else if (dbFile == null)
-                    {
-                        File.Delete(localPath);
-                    }
-                    else
-                    {
-                        context.SerializedFile.Remove(dbFile);
-                        context.SaveChanges();
-                        checkedFileList.Remove(checkedFileList[i]);
-                    }
-                } while (i < checkedFileList.Count);
-                return true;
+                return false;
             }
-            return false;
+            else
+            {
+                using (var context = new FiledbContext())
+                {
+                    foreach (var id in ids)
+                    {
+                        var fileToDelete = context.SerializedFile.FirstOrDefault(s => s.Id == id);
+                        context.Remove(fileToDelete);
+                        context.SaveChanges();
+                    }
+                    return true;
+                }
+            }
         }
 
 
