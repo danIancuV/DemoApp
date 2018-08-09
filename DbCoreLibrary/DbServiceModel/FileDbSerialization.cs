@@ -4,16 +4,16 @@ using Newtonsoft.Json;
 
 namespace DbCoreLibrary.DbServiceModel
 {
-    public class FileSerialization
+    public class FileDbSerialization
     {
 
-        public SerializedFile CreateFile(string fileName, string ext, string fileContent)
+        public SerializedFile CreateFile(string fileName, string fileExt, string fileContent)
         {
             return new SerializedFile
             {
                 Name = fileName,
                 FileContent = fileContent,
-                Extension = ext
+                Extension = fileExt
             };
         }
 
