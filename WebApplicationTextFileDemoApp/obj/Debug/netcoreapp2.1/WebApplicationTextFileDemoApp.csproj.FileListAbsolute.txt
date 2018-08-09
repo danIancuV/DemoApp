@@ -79,3 +79,4 @@ D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Web
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.csproj.CopyComplete
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.dll
 D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\WebApplicationTextFileDemoApp.pdb
+D:\App\TextFileDemoApp\WebApplicationTextFileDemoApp\obj\Debug\netcoreapp2.1\Razor\Views\SerialFile\Upload.g.cshtml.cs

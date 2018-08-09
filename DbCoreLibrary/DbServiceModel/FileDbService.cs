@@ -27,6 +27,36 @@ namespace DbCoreLibrary.DbServiceModel
 
         }
 
+        public bool FileDbUpload(string fileName)
+        {
+            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+            string localPath = $@"{LOCALPATHROOTH}{fileName}";
+
+            if (File.Exists(localPath))
+            {
+                using (var context = new FiledbContext())
+                {
+
+                    var fileDto = new SerialFileDto
+                    {
+                        Name = fileName.Split('.')[0],
+                        Extension = fileName.Split('.')[1],
+                        FileContent = File.ReadAllText(localPath),
+                    };
+
+                    var file = SerialFileDto.MapTo(fileDto);
+
+                    context.SerializedFile.Add(file);
+                    context.SaveChanges();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool FileDelete(List<int> ids)
         {
             if (ids.Count == 0)
@@ -45,35 +75,6 @@ namespace DbCoreLibrary.DbServiceModel
                     }
                     return true;
                 }
-            }
-        }
-
-
-        public bool FileDbUpload(string fileName)
-        {
-            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
-            string localPath = $@"{LOCALPATHROOTH}{fileName}";
-
-            if (File.Exists(localPath))
-            {
-                var db = new FiledbContext();
-
-                var fileModel = new SerialFileDto
-                {
-                    Name = fileName.Split('.')[0],
-                    Extension = fileName.Split('.')[1],
-                    FileContent = File.ReadAllText(localPath),
-                };
-
-                var file = SerialFileDto.MapTo(fileModel);
-
-                db.SerializedFile.Add(file);
-                db.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
 
