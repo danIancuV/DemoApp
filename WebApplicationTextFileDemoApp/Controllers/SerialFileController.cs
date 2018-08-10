@@ -14,19 +14,12 @@ namespace WebApplicationTextFileDemoApp.Controllers
     {
         private readonly FileDbService _fileDbService = new FileDbService();      
 
-
         // GET: SerialFile
         public IActionResult Index()
         {
             List<SerialFileDto> fileList = _fileDbService.GetdBItems();
 
             return View(fileList);
-        }
-
-        // GET: SerialFile/Upload
-        public IActionResult Upload()
-        {
-            return View();
         }
 
         // GET: SerialFile/Details/5
@@ -74,6 +67,7 @@ namespace WebApplicationTextFileDemoApp.Controllers
             }
         }
 
+
         // GET: SerializedFile/Create
         public IActionResult Create()
         {
@@ -101,6 +95,12 @@ namespace WebApplicationTextFileDemoApp.Controllers
         }
 
 
+        // GET: SerialFile/Upload
+        public IActionResult Upload()
+        {
+            return View();
+        }
+
 
         //POST : SerialFile/Upload
         [HttpPost]
@@ -119,10 +119,11 @@ namespace WebApplicationTextFileDemoApp.Controllers
             }
         }
 
+
         //POST : SerialFile/Checkdelete
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CheckDelete(List<int> checkedIds)
+        public IActionResult CheckDelete(List<int?> checkedIds)
         {
 
             bool isDeleted = _fileDbService.FileDelete(checkedIds);
@@ -136,6 +137,7 @@ namespace WebApplicationTextFileDemoApp.Controllers
                 return Content("Please check at least one file");
             }
         }
+
 
         // GET: SerialFile/Download    
         public IActionResult Download()

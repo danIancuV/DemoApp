@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -114,7 +115,7 @@ namespace DbCoreLibrary.DbServiceModel
             }
         }
 
-        public bool FileDelete(List<int> checkedIds)
+        public bool FileDelete(List<int?> checkedIds)
         {
             if (checkedIds.Count == 0)
             {
@@ -126,9 +127,17 @@ namespace DbCoreLibrary.DbServiceModel
                 {
                     foreach (var id in checkedIds)
                     {
+
                         var fileToDelete = context.SerializedFile.FirstOrDefault(s => s.Id == id);
-                        context.Remove(fileToDelete);
-                        context.SaveChanges();
+                        try
+                        {
+                            context.Remove(fileToDelete);
+                            context.SaveChanges();
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            return false;
+                        }
                     }
                     return true;
                 }
