@@ -1,0 +1,66 @@
+﻿@using System
+@using System.Collections.Generic
+@using DbCoreLibrary.DbServiceModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.EntityFrameworkCore.ValueGeneration.Internal
+@model IEnumerable<DbCoreLibrary.SerialFileDto>
+
+
+@{
+    ViewData["Title"] = "Download";
+}
+
+<h2>Download</h2>
+
+@using (Html.BeginForm("Download", "SerialFile", FormMethod.Post))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <p>Select</p>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Extension)
+                </th>
+                <th>
+                    <p>Actions</p>
+                </th>
+                <th>
+                    <p>Download format</p>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="checkedIds" id="checkedIds" value="@item.Id">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Extension)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                    <td>     
+                        @Html.DropDownList("checkedExtensions", new SelectList(Enum.GetValues(enumType: typeof(ExtEnum))))
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form asp-action="Download">
+        <input type="submit" value="Download selected files" class="btn btn-primary" />
+    </form>
+}

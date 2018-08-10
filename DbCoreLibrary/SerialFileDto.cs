@@ -14,8 +14,8 @@ namespace DbCoreLibrary
             public string Name { get; set; }
             [Required]
             public string FileContent { get; set; }
-            [Required]
-            [RegularExpression("[.][a-z]{0,4}$", ErrorMessage = "It has to start with '.' character, max 4 characters a-z")]
+            //[Required]
+            //[RegularExpression("[.][a-z]{0,4}$", ErrorMessage = "It has to start with '.' character, max 4 characters a-z")]
             public string Extension { get; set; }
 
             public static SerialFileDto MapTo(SerializedFile file)

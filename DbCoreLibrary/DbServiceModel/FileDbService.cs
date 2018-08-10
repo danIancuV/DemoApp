@@ -27,6 +27,63 @@ namespace DbCoreLibrary.DbServiceModel
 
         }
 
+        public SerialFileDto GetDetails(int? id)
+        {
+            using (var context = new FiledbContext())
+            {
+                var serializedFile = context.SerializedFile
+                    .FirstOrDefault(m => m.Id == id);
+                SerialFileDto serialFileDto = SerialFileDto.MapTo(serializedFile);
+                return serialFileDto;
+            }
+        }
+
+        public SerialFileDto GetEdit(int? id)
+        {
+            using (var context = new FiledbContext())
+            {
+                var serializedFile = context.SerializedFile
+                    .FirstOrDefault(m => m.Id == id);
+                SerialFileDto serialFileDto = SerialFileDto.MapTo(serializedFile);
+                return serialFileDto;
+            }
+        }
+
+        public bool PerformEdit(int id, SerialFileDto serialFileDto)
+        {
+            var serializedFile = SerialFileDto.MapTo(serialFileDto);
+            if (id != serializedFile.Id)
+            {
+                return false;
+            }
+
+            if (serializedFile != null)
+            {
+                using (var context = new FiledbContext())
+                {                   
+                    context.Update(serializedFile);
+                    context.SaveChanges();
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public bool FileCreate(SerialFileDto serialFileDto)
+        {
+            if (serialFileDto != null)
+            {
+                using (var context = new FiledbContext())
+                {
+                    var serializedFile = SerialFileDto.MapTo(serialFileDto);
+                    context.SerializedFile.Add(serializedFile);
+                    context.SaveChanges();                  
+                }
+                return true;
+            }
+            return false;
+        }
+
         public bool FileDbUpload(string fileName)
         {
             const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
@@ -78,27 +135,25 @@ namespace DbCoreLibrary.DbServiceModel
             }
         }
 
-        public bool FileDbDownload(List<int> checkedIds, List<ExtEnum> checkedExtensions)
+        public bool FileDbDownload(List<int> checkedIds, ExtEnum checkedExtensions)
         {
             if (checkedIds.Count == 0)
             {
                 return false;
             }
 
-            //int checkedItemsNb = GetCheckedItemsNo();
-
             else
             {
                 using (var context = new FiledbContext())
                 {
                     for (int i = 0; i < checkedIds.Count; i++)
-                    {                    
+                    {
                         int checkedItemId = checkedIds[i];
                         var checkedItemName = context.SerializedFile.FirstOrDefault(x =>
                         x.Id == checkedItemId)?.Name;
                         var checkedItemContent = context.SerializedFile.FirstOrDefault(x =>
                         x.Id == checkedItemId)?.FileContent;
-                        var checkedItemExtension = "." + checkedExtensions[i].ToString();
+                        var checkedItemExtension = "." + checkedExtensions.ToString();
 
                         SerializedFile file = fileDbSerialization.CreateFile(checkedItemName, checkedItemExtension, checkedItemContent);
 
@@ -116,16 +171,13 @@ namespace DbCoreLibrary.DbServiceModel
                             default:
                                 return false;
                         }
-                        return true;
-                    } 
+                    }
                 }
-                
+                return true;
             }
-            return false;
-     
         }
     }
-} 
+}
 //    else if (checkedItemsNb > 1)
 //            {
 //                var checkedItemsList = GetCheckedItemsList();

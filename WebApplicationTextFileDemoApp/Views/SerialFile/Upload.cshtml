@@ -1,0 +1,23 @@
+﻿@using System
+@using System.Collections.Generic
+@using DbCoreLibrary.DbServiceModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.EntityFrameworkCore.ValueGeneration.Internal
+@model IEnumerable<DbCoreLibrary.SerialFileDto>
+
+
+@{
+    ViewData["Title"] = "Upload";
+}
+
+<h2>Upload</h2><br>
+
+@using (Html.BeginForm("Upload", "SerialFile", FormMethod.Post))
+{
+
+    <input type="file" name="file" id="file" /><br>
+
+    <form asp-action="Upload">
+        <input type="submit" value="Upload" class="btn btn-primary" />
+    </form>
+}

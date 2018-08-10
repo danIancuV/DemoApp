@@ -1,0 +1,65 @@
+﻿@using System
+@using System.Collections.Generic
+@using DbCoreLibrary.DbServiceModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.EntityFrameworkCore.ValueGeneration.Internal
+@model IEnumerable<DbCoreLibrary.SerialFileDto>
+
+@{
+    ViewData["Title"] = "File list";
+}
+<h2>Files</h2><br>
+
+<p>
+    <a asp-action="Create"><b>Create file</b></a>
+    <p>&#9644</p>
+    <a asp-action="Upload"><b>Upload file</b></a>
+    <p>&#9644</p>
+    <a asp-action="Download"><b>Download file</b></a>
+</p><br>
+@using (Html.BeginForm("CheckDelete", "SerialFile", FormMethod.Post))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <p>Select</p>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Extension)
+                </th>
+                <th>
+                    <p>Actions</p>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="checkedIds" id="checkedIds" value="@item.Id">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Extension)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form asp-action="CheckDelete">
+        <input type="submit" value="Delete selected files" class="btn btn-primary" />
+    </form>
+
+}
