@@ -144,46 +144,46 @@ namespace DbCoreLibrary.DbServiceModel
             }
         }
 
-        public bool FileDbDownload(List<int> checkedIds, ExtEnum checkedExtensions)
+        public bool FileDbDownload(SerialFileDto serialFileDto)
         {
-            if (checkedIds.Count == 0)
-            {
-                return false;
-            }
+            //if (serialFileDtoList.Count == 0)
+            //{
+            //    return false;
+            //}
 
-            else
-            {
-                using (var context = new FiledbContext())
-                {
-                    for (int i = 0; i < checkedIds.Count; i++)
-                    {
-                        int checkedItemId = checkedIds[i];
-                        var checkedItemName = context.SerializedFile.FirstOrDefault(x =>
-                        x.Id == checkedItemId)?.Name;
-                        var checkedItemContent = context.SerializedFile.FirstOrDefault(x =>
-                        x.Id == checkedItemId)?.FileContent;
-                        var checkedItemExtension = "." + checkedExtensions.ToString();
+            //else
+            //{
+            //    using (var context = new FiledbContext())
+            //    {
+            //        for (int i = 0; i < serialFileDtoList.Count; i++)
+            //        {
+            //            int checkedItemId = serialFileDtoList[i].Id;
+            //            var checkedItemName = context.SerializedFile.FirstOrDefault(x =>
+            //            x.Id == checkedItemId)?.Name;
+            //            var checkedItemContent = context.SerializedFile.FirstOrDefault(x =>
+            //            x.Id == checkedItemId)?.FileContent;
+            //            var checkedItemExtension = "." + serialFileDtoList[i].Extension.ToString();
 
-                        SerializedFile file = fileDbSerialization.CreateFile(checkedItemName, checkedItemExtension, checkedItemContent);
+            //            SerializedFile file = fileDbSerialization.CreateFile(checkedItemName, checkedItemExtension, checkedItemContent);
 
-                        switch (checkedItemExtension)
-                        {
-                            case ".xml":
-                                fileDbSerialization.XmlSerializeToFile(SerialFileDto.MapTo(file));
-                                break;
-                            case ".json":
-                                fileDbSerialization.JsonSerializeToFile(SerialFileDto.MapTo(file));
-                                break;
-                            case ".bin":
-                                fileDbSerialization.BinarySerializeToFile(SerialFileDto.MapTo(file));
-                                break;
-                            default:
-                                return false;
-                        }
-                    }
-                }
-                return true;
-            }
+            //            switch (checkedItemExtension)
+            //            {
+            //                case ".xml":
+            //                    fileDbSerialization.XmlSerializeToFile(SerialFileDto.MapTo(file));
+            //                    break;
+            //                case ".json":
+            //                    fileDbSerialization.JsonSerializeToFile(SerialFileDto.MapTo(file));
+            //                    break;
+            //                case ".bin":
+            //                    fileDbSerialization.BinarySerializeToFile(SerialFileDto.MapTo(file));
+            //                    break;
+            //                default:
+            //                    return false;
+            //            }
+            //        }
+            //    }
+            return true;
+            //}
         }
     }
 }

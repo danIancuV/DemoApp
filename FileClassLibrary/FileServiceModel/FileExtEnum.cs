@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace DbCoreLibrary.DbServiceModel
+namespace FileClassLibrary.FileServiceModel
 {
     public enum FileExtEnum
     {

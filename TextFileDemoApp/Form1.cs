@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,28 +10,21 @@ namespace TextFileDemoApp
 {
     public partial class TextFileForm : Form
     {
-        private readonly FileLocalSelection _fileSelection;
-        private readonly FileLocalSerialization _fileSerialization;
-        private readonly FileLocalService _fileDbService;
+        private readonly FileSelection _fileSelection;
+        private readonly FileSerialization _fileSerialization;
+        private readonly FileLocalService _fileLocalService;
 
         public TextFileForm()
         {
-            _fileSelection = new FileLocalSelection();
-            _fileSerialization = new FileLocalSerialization();
-            _fileDbService = new FileLocalService();
+            _fileSelection = new FileSelection();
+            _fileSerialization = new FileSerialization();
+            _fileLocalService = new FileLocalService();
+
+            List<SerializedFileDto> fileDtoList = new List<SerializedFileDto>();
 
             InitializeComponent();
             DbGridDataLoading();
             BrowseFileInitialize();
-
-        }
-
-        public void DbGridDataLoading()
-        {
-            serializedFileTableAdapter.Fill(filedbDataSet.SerializedFile);
-
-            DownloadFormat.ValueType = typeof(FileExtEnum);
-            DownloadFormat.DataSource = Enum.GetValues(typeof(FileExtEnum));
         }
 
         private void BrowseFileInitialize()
@@ -59,24 +51,24 @@ namespace TextFileDemoApp
             }
         }
 
-        private void BtnFileDbUpload(object sender, EventArgs e)
+        List<SerializedFileDto> fileDtoList = new List<SerializedFileDto>();
+        private void BtnFileGridUpload(object sender, EventArgs e)
         {
+            DownloadFormat.ValueType = typeof(FileExtEnum);
+            DownloadFormat.DataSource = Enum.GetValues(typeof(FileExtEnum));            
 
-            bool isUploaded = _fileDbService.FileDbUpload(fileNameBox.Text);
-            if (isUploaded)
-            {
-                MessageBox.Show(@"Upload done");
-            }
-            else
-            {
-                MessageBox.Show(@"Local file not found");
-                return;
-            }
-
-            DbGridDataLoading();
+            SerializedFileDto file = _fileLocalService.FileGridUpload(fileNameBox.Text);
+            fileDtoList.Add(file);
+            fileGridView.DataSource = fileDtoList;
         }
 
-        private void BtnDbDownload(object sender, EventArgs e)
+        public void DbGridDataLoading()
+        {
+
+
+        }
+
+        private void BtnSerialize(object sender, EventArgs e)
         {
             if (fileGridView.Rows.Count == 0)
             {
@@ -95,24 +87,28 @@ namespace TextFileDemoApp
                 var checkedItem = Convert.ToString(selectedRow.Cells["FileName"].Value);
                 var checkedExt = "." + Convert.ToString(selectedRow.Cells["DownloadFormat"].Value);
 
-                var db = new FiledbEntities();
-                var checkedItemContent = db.SerializedFiles.FirstOrDefault(x =>
-                    x.Name == checkedItem)?.FileContent;
+                const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+                string localPath = $@"{LOCALPATHROOTH}{checkedItem}{'.' + checkedExt}";
 
-                SerializedFile file = _fileSerialization.CreateFile(checkedItem, checkedExt, checkedItemContent);
+
+                var checkedItemContent = File.ReadAllText(localPath);
+                SerializedFileDto file = _fileSerialization.CreateFile(checkedItem, checkedExt, checkedItemContent);
+
+
+
 
                 switch (checkedExt)
                 {
                     case ".xml":
-                        _fileSerialization.XmlSerializeToFile(SerializedFileDto.MapTo(file));
+                        _fileSerialization.XmlSerializeToFile(file);
                         MessageBox.Show(@"Xml serialized file downloaded");
                         break;
                     case ".json":
-                        _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
+                        _fileSerialization.JsonSerializeToFile(file);
                         MessageBox.Show(@"Json serialized file downloaded");
                         break;
                     case ".bin":
-                        _fileSerialization.BinarySerializeToFile(SerializedFileDto.MapTo(file));
+                        _fileSerialization.BinarySerializeToFile(file);
                         MessageBox.Show(@"Bin serialized file downloaded");
                         break;
                     default:
@@ -125,26 +121,26 @@ namespace TextFileDemoApp
             {
                 var checkedItemsList = GetCheckedItemsList();
 
-                List<SerializedFile> serializedItemsList = new List<SerializedFile>();
+                List<SerializedFileDto> serializedItemsList = new List<SerializedFileDto>();
                 foreach (var file in checkedItemsList)
                 {
                     string checkedExt = file.Extension;
                     switch (checkedExt)
                     {
                         case ".xml":
-                            SerializedFile xmlSerializedFile = _fileSerialization.XmlSerializeToFile(SerializedFileDto.MapTo(file));
+                            SerializedFileDto xmlSerializedFile = _fileSerialization.XmlSerializeToFile(file);
                             serializedItemsList.Add(xmlSerializedFile);
-                            
+
                             break;
                         case ".json":
-                            SerializedFile jsonSerializedFile = _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
+                            SerializedFileDto jsonSerializedFile = _fileSerialization.JsonSerializeToFile(file);
                             serializedItemsList.Add(jsonSerializedFile);
-                            
+
                             break;
                         case ".bin":
-                            SerializedFile binSerializedFile = _fileSerialization.JsonSerializeToFile(SerializedFileDto.MapTo(file));
+                            SerializedFileDto binSerializedFile = _fileSerialization.JsonSerializeToFile(file);
                             serializedItemsList.Add(binSerializedFile);
-                            
+
                             break;
                         default:
                             MessageBox.Show(@"Please select a format to download");
@@ -152,8 +148,8 @@ namespace TextFileDemoApp
                     }
                 }
 
-                bool isDownloaded = _fileDbService.ZipFileDbDownload(serializedItemsList);
-                if (isDownloaded)
+                bool isArchived = _fileLocalService.ZipFileArchive(serializedItemsList);
+                if (isArchived)
                 {
                     MessageBox.Show(@"Zip download done");
                     return;
@@ -174,7 +170,7 @@ namespace TextFileDemoApp
         {
             var checkedItemsList = GetCheckedItemsList();
 
-            bool isDeleted = _fileDbService.FileDelete(checkedItemsList);
+            bool isDeleted = _fileLocalService.FileDelete(checkedItemsList);
             if (isDeleted)
             {
                 MessageBox.Show(@"File Deleted");
@@ -186,7 +182,7 @@ namespace TextFileDemoApp
 
             DbGridDataLoading();
         }
-            
+
         public int GetCheckedItemsNo()
         {
             int checkedItemsNo = 0;
@@ -203,9 +199,9 @@ namespace TextFileDemoApp
             return checkedItemsNo;
         }
 
-        public List<SerializedFile> GetCheckedItemsList()
+        public List<SerializedFileDto> GetCheckedItemsList()
         {
-            List<SerializedFile> checkedItemsList = new List<SerializedFile>();
+            List<SerializedFileDto> checkedItemsList = new List<SerializedFileDto>();
 
             foreach (DataGridViewRow row in fileGridView.Rows)
             {
@@ -215,11 +211,11 @@ namespace TextFileDemoApp
 
                 if (isChecked)
                 {
-                    var db = new FiledbEntities();
-                    var checkedItemContent = (db.SerializedFiles.FirstOrDefault(x =>
-                        x.Name == checkedItem))?.FileContent;
+                    const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+                    string localPath = $@"{LOCALPATHROOTH}{checkedItem}";
+                    var checkedItemContent = _fileSelection.ReadFile(checkedItem, localPath);
 
-                    SerializedFile file =
+                    SerializedFileDto file =
                         _fileSerialization.CreateFile(checkedItem, "." + checkedExt, checkedItemContent);
                     checkedItemsList.Add(file);
                 }

@@ -40,16 +40,12 @@ namespace TextFileDemoApp
             this.label2 = new System.Windows.Forms.Label();
             this.button11 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.serializedFileBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.fileGridView = new System.Windows.Forms.DataGridView();
-            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.DownloadFormat = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.serializedFileBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.filedbDataSet = new TextFileDemoApp.filedbDataSet();
-            this.serializedFileTableAdapter = new TextFileDemoApp.filedbDataSetTableAdapters.SerializedFileTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this.fileGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.serializedFileBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.filedbDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fileGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -75,9 +71,9 @@ namespace TextFileDemoApp
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(100, 23);
             this.button6.TabIndex = 7;
-            this.button6.Text = ".txt Db Upload";
+            this.button6.Text = "File Grid Upload";
             this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.BtnFileDbUpload);
+            this.button6.Click += new System.EventHandler(this.BtnFileGridUpload);
             // 
             // button7
             // 
@@ -85,9 +81,9 @@ namespace TextFileDemoApp
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(100, 23);
             this.button7.TabIndex = 9;
-            this.button7.Text = "Download";
+            this.button7.Text = "Serialize";
             this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.BtnDbDownload);
+            this.button7.Click += new System.EventHandler(this.BtnSerialize);
             // 
             // button8
             // 
@@ -139,54 +135,30 @@ namespace TextFileDemoApp
             this.label3.TabIndex = 16;
             this.label3.Text = "Please select a file or multiple files in the list";
             // 
+            // serializedFileBindingSource
+            // 
+            this.serializedFileBindingSource.DataMember = "SerializedFile";
+            // 
             // fileGridView
             // 
-            this.fileGridView.AllowUserToAddRows = false;
-            this.fileGridView.AutoGenerateColumns = false;
             this.fileGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.fileGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FileName,
             this.FileCheck,
             this.DownloadFormat});
-            this.fileGridView.DataSource = this.serializedFileBindingSource;
-            this.fileGridView.Location = new System.Drawing.Point(269, 12);
+            this.fileGridView.Location = new System.Drawing.Point(42, 210);
             this.fileGridView.Name = "fileGridView";
-            this.fileGridView.Size = new System.Drawing.Size(345, 188);
+            this.fileGridView.Size = new System.Drawing.Size(710, 187);
             this.fileGridView.TabIndex = 17;
-            // 
-            // FileName
-            // 
-            this.FileName.DataPropertyName = "Name";
-            this.FileName.HeaderText = "FileName";
-            this.FileName.Name = "FileName";
-            this.FileName.Width = 102;
             // 
             // FileCheck
             // 
-            this.FileCheck.DataPropertyName = "FileCheck";
             this.FileCheck.HeaderText = "FileCheck";
             this.FileCheck.Name = "FileCheck";
             // 
             // DownloadFormat
             // 
-            this.DownloadFormat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.DownloadFormat.DataPropertyName = "DownloadFormat";
             this.DownloadFormat.HeaderText = "DownloadFormat";
             this.DownloadFormat.Name = "DownloadFormat";
-            // 
-            // serializedFileBindingSource
-            // 
-            this.serializedFileBindingSource.DataMember = "SerializedFile";
-            this.serializedFileBindingSource.DataSource = this.filedbDataSet;
-            // 
-            // filedbDataSet
-            // 
-            this.filedbDataSet.DataSetName = "filedbDataSet";
-            this.filedbDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // serializedFileTableAdapter
-            // 
-            this.serializedFileTableAdapter.ClearBeforeFill = true;
             // 
             // TextFileForm
             // 
@@ -202,9 +174,8 @@ namespace TextFileDemoApp
             this.Controls.Add(this.fileNameBox);
             this.Controls.Add(this.button1);
             this.Name = "TextFileForm";
-            ((System.ComponentModel.ISupportInitialize)(this.fileGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.serializedFileBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.filedbDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fileGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,11 +192,11 @@ namespace TextFileDemoApp
         protected Label label2;
         protected Button button11;
         protected Label label3;
-        private DataGridView fileGridView;
-        private filedbDataSet filedbDataSet;
+
         private BindingSource serializedFileBindingSource;
-        private filedbDataSetTableAdapters.SerializedFileTableAdapter serializedFileTableAdapter;
+
         private DataGridViewTextBoxColumn FileName;
+        private DataGridView fileGridView;
         private DataGridViewCheckBoxColumn FileCheck;
         private DataGridViewComboBoxColumn DownloadFormat;
     }

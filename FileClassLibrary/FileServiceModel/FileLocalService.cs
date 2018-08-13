@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 
-namespace DbCoreLibrary.DbServiceModel
+namespace FileClassLibrary.FileServiceModel
 {
 
     public class FileLocalService
@@ -14,7 +14,7 @@ namespace DbCoreLibrary.DbServiceModel
             if (file != null)
             {
                 string path =
-                    $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{file.Name}{file.Extension}";
+                    $@"D:\\App\\TextFileDemoApp-monday-commit-6-august\\TextFileDemoApp\\bin\\Debug\\{file.Name}{file.Extension}";
                 using (var fileStream = new StreamWriter(path))
                 {
                     {
@@ -29,17 +29,19 @@ namespace DbCoreLibrary.DbServiceModel
             {
                 return false;
             }
-
         }
 
-        public bool FileDbUpload(string fileName)
+        
+
+        public SerializedFileDto FileGridUpload(string fileName)
         {
-            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp-monday-commit-6-august\\TextFileDemoApp\\bin\\Debug\\";
             string localPath = $@"{LOCALPATHROOTH}{fileName}";
 
+            
+
             if (File.Exists(localPath))
-            {
-                var db = new FiledbEntities();
+            {              
 
                 var fileModel = new SerializedFileDto
                 {
@@ -48,19 +50,18 @@ namespace DbCoreLibrary.DbServiceModel
                     FileContent = File.ReadAllText(localPath),
                 };
 
-                var file = SerializedFileDto.MapTo(fileModel);
 
-                db.SerializedFiles.Add(file);
-                db.SaveChanges();
-                return true;
+                return fileModel;
             }
+            
             else
             {
-                return false;
+                return null;
             }
+
         }
 
-        public bool ZipFileDbDownload(List<SerializedFile> checkedItemsList)
+        public bool ZipFileArchive(List<SerializedFileDto> checkedItemsList)
         {
             const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\Files.zip";
 
@@ -70,10 +71,8 @@ namespace DbCoreLibrary.DbServiceModel
             {
                 if (file == null)
                 {
-
                     return false;
                 }
-
                 else
                 {
                     using (FileStream zipToOpen = new FileStream(zipPath, FileMode.OpenOrCreate))
@@ -96,9 +95,8 @@ namespace DbCoreLibrary.DbServiceModel
             return false;
         }
 
-        public bool FileDelete(List<SerializedFile> checkedItemsList)
-        {
-            var db = new FiledbEntities();
+        public bool FileDelete(List<SerializedFileDto> checkedItemsList)
+        {           
             int i = 0;
 
             if (checkedItemsList.Count != 0)
@@ -109,26 +107,15 @@ namespace DbCoreLibrary.DbServiceModel
                     var checkedfileExt = ".txt";
                     var localPath =
                         $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
-                    var dbFile = db.SerializedFiles.FirstOrDefault(x =>
-                        x.Name == checkedfileName);
-                    if ((dbFile != null) && (File.Exists(localPath)))
+
+                    if (File.Exists(localPath))
                     {
-                        db.SerializedFiles.Remove(dbFile);
-                        db.SaveChanges();
                         checkedItemsList.Remove(checkedItemsList[i]);
                         File.Delete(localPath);
                     }
-                    else if (dbFile == null)
-                    {
-                        File.Delete(localPath);
-                    }
-                    else
-                    {
-                        db.SerializedFiles.Remove(dbFile);
-                        db.SaveChanges();
-                        checkedItemsList.Remove(checkedItemsList[i]);
-                    }
+
                 } while (i < checkedItemsList.Count);
+
                 return true;
             }
             return false;

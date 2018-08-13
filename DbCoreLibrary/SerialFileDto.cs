@@ -17,7 +17,9 @@ namespace DbCoreLibrary
             //[Required]
             //[RegularExpression("[.][a-z]{0,4}$", ErrorMessage = "It has to start with '.' character, max 4 characters a-z")]
             public string Extension { get; set; }
-
+            
+            public FileExtEnum DownloadExtension { get; set; }
+            
             public static SerialFileDto MapTo(SerializedFile file)
             {
                 return new SerialFileDto

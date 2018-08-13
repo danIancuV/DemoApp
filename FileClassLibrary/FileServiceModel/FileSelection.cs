@@ -1,12 +1,10 @@
 ﻿using System.IO;
 
 
-namespace DbCoreLibrary.DbServiceModel
+namespace FileClassLibrary.FileServiceModel
 {
-    public class FileLocalSelection
+    public class FileSelection
     {
-
-
         public string ReadFile(string file, string path)
         {
 

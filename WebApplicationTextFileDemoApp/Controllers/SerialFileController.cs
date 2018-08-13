@@ -151,10 +151,10 @@ namespace WebApplicationTextFileDemoApp.Controllers
         //POST : SerialFile/Download
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Download(List<int> checkedIds, ExtEnum checkedExtensions)
+        public IActionResult Download([Bind("checkedIds, DownloadExtension")] SerialFileDto serialFileDto)
         {
 
-            bool isDownloaded = _fileDbService.FileDbDownload(checkedIds, checkedExtensions);
+            bool isDownloaded = _fileDbService.FileDbDownload(serialFileDto);
             if (isDownloaded)
             {
                 return Content("Please check at least one file");
@@ -165,7 +165,5 @@ namespace WebApplicationTextFileDemoApp.Controllers
                 return Content("Please check at least one file");
             }
         }
-
     }
-
 }
