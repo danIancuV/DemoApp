@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,17 +14,16 @@ namespace TextFileDemoApp
         private readonly FileSelection _fileSelection;
         private readonly FileSerialization _fileSerialization;
         private readonly FileLocalService _fileLocalService;
+        
 
         public TextFileForm()
         {
             _fileSelection = new FileSelection();
             _fileSerialization = new FileSerialization();
             _fileLocalService = new FileLocalService();
-
-            List<SerializedFileDto> fileDtoList = new List<SerializedFileDto>();
-
+            
             InitializeComponent();
-            DbGridDataLoading();
+      
             BrowseFileInitialize();
         }
 
@@ -50,29 +50,20 @@ namespace TextFileDemoApp
                 return null;
             }
         }
-
-        List<SerializedFileDto> fileDtoList = new List<SerializedFileDto>();
+        
         private void BtnFileGridUpload(object sender, EventArgs e)
-        {
+        {                       
+            fileGridView.DataSource = typeof(List<SerializedFileDto>);
+            fileGridView.DataSource = _fileLocalService.FileGridUpload(fileNameBox.Text);
             DownloadFormat.ValueType = typeof(FileExtEnum);
-            DownloadFormat.DataSource = Enum.GetValues(typeof(FileExtEnum));            
-
-            SerializedFileDto file = _fileLocalService.FileGridUpload(fileNameBox.Text);
-            fileDtoList.Add(file);
-            fileGridView.DataSource = fileDtoList;
-        }
-
-        public void DbGridDataLoading()
-        {
-
-
+            DownloadFormat.DataSource = Enum.GetValues(typeof(FileExtEnum));
         }
 
         private void BtnSerialize(object sender, EventArgs e)
         {
             if (fileGridView.Rows.Count == 0)
             {
-                MessageBox.Show(@"Please upload a file to dB!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Please upload a file to Grid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -84,18 +75,16 @@ namespace TextFileDemoApp
                 int checkedItemIndex = fileGridView.SelectedCells[0].RowIndex;
                 DataGridViewRow selectedRow = fileGridView.Rows[checkedItemIndex];
 
-                var checkedItem = Convert.ToString(selectedRow.Cells["FileName"].Value);
+                var checkedItem = Convert.ToString(selectedRow.Cells["Name"].Value);
                 var checkedExt = "." + Convert.ToString(selectedRow.Cells["DownloadFormat"].Value);
 
+                const string LOCALEXT = ".txt";
                 const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
-                string localPath = $@"{LOCALPATHROOTH}{checkedItem}{'.' + checkedExt}";
+                string localPath = $@"{LOCALPATHROOTH}{checkedItem}{LOCALEXT}";
 
 
                 var checkedItemContent = File.ReadAllText(localPath);
                 SerializedFileDto file = _fileSerialization.CreateFile(checkedItem, checkedExt, checkedItemContent);
-
-
-
 
                 switch (checkedExt)
                 {
@@ -170,17 +159,20 @@ namespace TextFileDemoApp
         {
             var checkedItemsList = GetCheckedItemsList();
 
-            bool isDeleted = _fileLocalService.FileDelete(checkedItemsList);
-            if (isDeleted)
+            List<SerializedFileDto> dtoAfterDeleteList = _fileLocalService.FileDelete(checkedItemsList);
+            if (dtoAfterDeleteList != null)
             {
-                MessageBox.Show(@"File Deleted");
+                fileGridView.DataSource = typeof(List<SerializedFileDto>);
+                fileGridView.DataSource = dtoAfterDeleteList;
+                DownloadFormat.ValueType = typeof(FileExtEnum);
+                DownloadFormat.DataSource = Enum.GetValues(typeof(FileExtEnum));
+                MessageBox.Show(@"Deletion completed");
             }
             else
             {
-                MessageBox.Show(@"Please select a file");
+                MessageBox.Show(@"Please select an item to delete");
             }
-
-            DbGridDataLoading();
+            
         }
 
         public int GetCheckedItemsNo()
@@ -189,7 +181,7 @@ namespace TextFileDemoApp
 
             foreach (DataGridViewRow row in fileGridView.Rows)
             {
-                bool isChecked = (bool)row.Cells[1].EditedFormattedValue;
+                bool isChecked = (bool)row.Cells[0].EditedFormattedValue;
                 if (isChecked)
                 {
                     checkedItemsNo++;
@@ -205,9 +197,9 @@ namespace TextFileDemoApp
 
             foreach (DataGridViewRow row in fileGridView.Rows)
             {
-                bool isChecked = (bool)row.Cells[1].EditedFormattedValue;
-                string checkedItem = (string)row.Cells[0].EditedFormattedValue;
-                string checkedExt = (string)row.Cells[2].EditedFormattedValue;
+                bool isChecked = (bool)row.Cells[0].EditedFormattedValue;
+                string checkedItem = (string)row.Cells[2].EditedFormattedValue;
+                string checkedExt = (string)row.Cells[1].EditedFormattedValue;
 
                 if (isChecked)
                 {

@@ -53,9 +53,10 @@
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
-                    <td>     
-                        @Html.DropDownList("DownloadExtension", Html.GetEnumSelectList<DbCoreLibrary.FileExtEnum>(),
-                        "Select Extension", new { @class = "form-control" })
+                    <td>
+                        @Html.DropDownList("DownloadExtension",
+                        Html.GetEnumSelectList<DbCoreLibrary.FileExtEnum>(),
+                        "Select Extension",new { @class = "form-control" })
                     </td>
                 </tr>
             }

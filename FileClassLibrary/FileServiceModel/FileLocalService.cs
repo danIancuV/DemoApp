@@ -1,73 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 
 namespace FileClassLibrary.FileServiceModel
 {
 
     public class FileLocalService
     {
-        public bool FileLocalCreate(SerializedFileDto file)
+
+        List<SerializedFileDto> fileDtoList = new List<SerializedFileDto>();
+        public List<SerializedFileDto> FileGridUpload(string fileName)
         {
-            if (file != null)
-            {
-                string path =
-                    $@"D:\\App\\TextFileDemoApp-monday-commit-6-august\\TextFileDemoApp\\bin\\Debug\\{file.Name}{file.Extension}";
-                using (var fileStream = new StreamWriter(path))
-                {
-                    {
-                        fileStream.Write(file.FileContent);
-                        fileStream.Close();
-                    }
-                }
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        
-
-        public SerializedFileDto FileGridUpload(string fileName)
-        {
-            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp-monday-commit-6-august\\TextFileDemoApp\\bin\\Debug\\";
-            string localPath = $@"{LOCALPATHROOTH}{fileName}";
-
             
+            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+            string localPath = $@"{LOCALPATHROOTH}{fileName}";
 
             if (File.Exists(localPath))
             {              
-
                 var fileModel = new SerializedFileDto
                 {
                     Name = fileName.Split('.')[0],
                     Extension = fileName.Split('.')[1],
                     FileContent = File.ReadAllText(localPath),
                 };
-
-
-                return fileModel;
+                fileDtoList.Add(fileModel);
+                return fileDtoList;
             }
             
             else
             {
                 return null;
             }
-
         }
 
-        public bool ZipFileArchive(List<SerializedFileDto> checkedItemsList)
+        public bool ZipFileArchive(List<SerializedFileDto> serializedItemsList)
         {
             const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\Files.zip";
 
             string zipPath = $@"{LOCALPATHROOTH}";
 
-            foreach (var file in checkedItemsList)
+            foreach (var file in serializedItemsList)
             {
                 if (file == null)
                 {
@@ -85,17 +57,16 @@ namespace FileClassLibrary.FileServiceModel
                             {
                                 writer.Write(file.FileContent);
                                 writer.Close();
-                                return true;
+                                
                             }
                         }
                     }
                 }
             }
-
-            return false;
+            return true;
         }
 
-        public bool FileDelete(List<SerializedFileDto> checkedItemsList)
+        public List<SerializedFileDto> FileDelete(List<SerializedFileDto> checkedItemsList)
         {           
             int i = 0;
 
@@ -108,17 +79,27 @@ namespace FileClassLibrary.FileServiceModel
                     var localPath =
                         $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
 
+                    for (int j = 0; j < fileDtoList.Count; j++)
+                    {
+                        if (checkedfileName == fileDtoList[j].Name)
+                        {
+                            fileDtoList.Remove(fileDtoList[j]);
+                        }
+
+                    }
+
                     if (File.Exists(localPath))
                     {
                         checkedItemsList.Remove(checkedItemsList[i]);
                         File.Delete(localPath);
                     }
+                
 
                 } while (i < checkedItemsList.Count);
 
-                return true;
+                return fileDtoList;
             }
-            return false;
+            return null;
         }
     }
 }

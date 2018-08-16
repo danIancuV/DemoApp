@@ -141,6 +141,7 @@ namespace TextFileDemoApp
             // 
             // fileGridView
             // 
+            this.fileGridView.AllowUserToAddRows = false;
             this.fileGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.fileGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FileCheck,
@@ -195,7 +196,7 @@ namespace TextFileDemoApp
 
         private BindingSource serializedFileBindingSource;
 
-        private DataGridViewTextBoxColumn FileName;
+        
         private DataGridView fileGridView;
         private DataGridViewCheckBoxColumn FileCheck;
         private DataGridViewComboBoxColumn DownloadFormat;

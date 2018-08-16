@@ -151,7 +151,7 @@ namespace WebApplicationTextFileDemoApp.Controllers
         //POST : SerialFile/Download
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Download([Bind("checkedIds, DownloadExtension")] SerialFileDto serialFileDto)
+        public IActionResult Download(SerialFileDto serialFileDto)
         {
 
             bool isDownloaded = _fileDbService.FileDbDownload(serialFileDto);
