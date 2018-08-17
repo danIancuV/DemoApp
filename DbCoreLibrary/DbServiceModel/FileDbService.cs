@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 
+
 namespace DbCoreLibrary.DbServiceModel
 {
 
@@ -144,7 +145,7 @@ namespace DbCoreLibrary.DbServiceModel
             }
         }
 
-        public bool FileDbDownload(SerialFileDto serialFileDto)
+        public bool FileDbDownload(DownloadFileDto downloadFileDto)
         {
             //if (serialFileDtoList.Count == 0)
             //{

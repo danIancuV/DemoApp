@@ -6,6 +6,7 @@ namespace DbCoreLibrary
 {
     public enum FileExtEnum
     {
+        empty,
         xml,
         json,
         bin,

@@ -3,7 +3,7 @@
 @using DbCoreLibrary.DbServiceModel
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Microsoft.EntityFrameworkCore.ValueGeneration.Internal
-@model IEnumerable<DbCoreLibrary.SerialFileDto>
+@model System.Collections.Generic.List<DbCoreLibrary.SerialFileDto>
 
 
 @{
@@ -21,10 +21,10 @@
                     <p>Select</p>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    Name
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Extension)
+                    Extension
                 </th>
                 <th>
                     <p>Actions</p>
@@ -36,33 +36,56 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @for (int i = 0; i < Model.Count; i++)
             {
                 <tr>
                     <td>
-                        <input type="checkbox" name="checkedIds" id="checkedIds" value="@item.Id">
+                        <input type="checkbox" class="checkbox" id="@Model[i].Id" value="" attr-id="@Model[i].Id">
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => Model[i].Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Extension)
+                        @Html.DisplayFor(modelItem => Model[i].Extension)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@Model[i].Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@Model[i].Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@Model[i].Id">Delete</a>
                     </td>
                     <td>
-                        @Html.DropDownList("DownloadExtension",
-                        Html.GetEnumSelectList<DbCoreLibrary.FileExtEnum>(),
-                        "Select Extension",new { @class = "form-control" })
+                        @Html.DropDownList("DownloadExtension[" + Model[i].Id + "]",
+                        Html.GetEnumSelectList<DbCoreLibrary.FileExtEnum>
+    (),
+    "Select Extension",new { @class = "form-control" })
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
     <form asp-action="Download">
-        <input type="submit" value="Download selected files" class="btn btn-primary" />
+        <input type="hidden" name="Ids" id="Ids" />
+        <input type="hidden" name="Extensions" id="Extensions" />
+        <input type="submit" value="Download selected files" class="btn btn-primary" id="downloadBtn" />
     </form>
-}
+
+    @section Scripts {
+        <script>
+            $("#downloadBtn").click(function () {
+                var checkedList = $(".checkbox:checked");
+                var idsInput = $("#Ids");
+                var extensionsInput = $("#Extensions");
+                var ids = [];
+                var extensions = [];
+                checkedList.each(function (index) {
+                    var id = $(this).attr('attr-id')
+                    ids[ids.length] = id;
+                    extensions[extensions.length] = $("#DownloadExtension_" + id + "_").val();
+                });
+
+                idsInput.val(ids.join(', '));
+                extensionsInput.val(extensions.join(', '));
+            });
+        </script>
+    }}

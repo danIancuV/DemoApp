@@ -151,19 +151,19 @@ namespace WebApplicationTextFileDemoApp.Controllers
         //POST : SerialFile/Download
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Download(SerialFileDto serialFileDto)
+        public IActionResult Download(DownloadFileDto downloadFileDto)
         {
+            bool isDownloaded = _fileDbService.FileDbDownload(downloadFileDto);
+            return View("Download");
+            //if (isDownloaded)
+            //{
+            //    return Content("Please check at least one file");
+            //}
 
-            bool isDownloaded = _fileDbService.FileDbDownload(serialFileDto);
-            if (isDownloaded)
-            {
-                return Content("Please check at least one file");
-            }
-
-            else
-            {
-                return Content("Please check at least one file");
-            }
+            //else
+            //{
+            //    return Content("Please check at least one file");
+            //}
         }
     }
 }
