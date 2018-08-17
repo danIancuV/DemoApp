@@ -172,7 +172,7 @@ namespace TextFileDemoApp
             {
                 MessageBox.Show(@"Please select an item to delete");
             }
-            
+
         }
 
         public int GetCheckedItemsNo()

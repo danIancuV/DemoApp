@@ -11,22 +11,23 @@ namespace FileClassLibrary.FileServiceModel
         List<SerializedFileDto> fileDtoList = new List<SerializedFileDto>();
         public List<SerializedFileDto> FileGridUpload(string fileName)
         {
-            
+
             const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
             string localPath = $@"{LOCALPATHROOTH}{fileName}";
 
             if (File.Exists(localPath))
-            {              
+            {
                 var fileModel = new SerializedFileDto
                 {
                     Name = fileName.Split('.')[0],
                     Extension = fileName.Split('.')[1],
                     FileContent = File.ReadAllText(localPath),
                 };
+
                 fileDtoList.Add(fileModel);
                 return fileDtoList;
             }
-            
+
             else
             {
                 return null;
@@ -57,7 +58,7 @@ namespace FileClassLibrary.FileServiceModel
                             {
                                 writer.Write(file.FileContent);
                                 writer.Close();
-                                
+
                             }
                         }
                     }
@@ -67,7 +68,7 @@ namespace FileClassLibrary.FileServiceModel
         }
 
         public List<SerializedFileDto> FileDelete(List<SerializedFileDto> checkedItemsList)
-        {           
+        {
             int i = 0;
 
             if (checkedItemsList.Count != 0)
@@ -85,7 +86,6 @@ namespace FileClassLibrary.FileServiceModel
                         {
                             fileDtoList.Remove(fileDtoList[j]);
                         }
-
                     }
 
                     if (File.Exists(localPath))
@@ -93,7 +93,7 @@ namespace FileClassLibrary.FileServiceModel
                         checkedItemsList.Remove(checkedItemsList[i]);
                         File.Delete(localPath);
                     }
-                
+
 
                 } while (i < checkedItemsList.Count);
 
@@ -103,3 +103,4 @@ namespace FileClassLibrary.FileServiceModel
         }
     }
 }
+
