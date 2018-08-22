@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace DbCoreLibrary.DbServiceModel
 {
 
     public class FileDbService
     {
-        private readonly FileDbSerialization fileDbSerialization = new FileDbSerialization();
+        public readonly FileDbSerialization FileDbSerialization = new FileDbSerialization();
         public List<SerialFileDto> GetdBItems()
         {
-            List<SerialFileDto> dtoFileList = new List<SerialFileDto>();
+            var dtoFileList = new List<SerialFileDto>();
 
 
             using (var context = new FiledbContext())
@@ -20,12 +20,11 @@ namespace DbCoreLibrary.DbServiceModel
                 var fileList = context.SerializedFile.ToList();
                 foreach (SerializedFile dbfile in fileList)
                 {
-                    SerialFileDto fileDto = SerialFileDto.MapTo(dbfile);
+                    var fileDto = SerialFileDto.MapTo(dbfile);
                     dtoFileList.Add(fileDto);
                 }
                 return dtoFileList;
             }
-
         }
 
         public SerialFileDto GetDetails(int? id)
@@ -34,7 +33,7 @@ namespace DbCoreLibrary.DbServiceModel
             {
                 var serializedFile = context.SerializedFile
                     .FirstOrDefault(m => m.Id == id);
-                SerialFileDto serialFileDto = SerialFileDto.MapTo(serializedFile);
+                var serialFileDto = SerialFileDto.MapTo(serializedFile);
                 return serialFileDto;
             }
         }
@@ -45,7 +44,7 @@ namespace DbCoreLibrary.DbServiceModel
             {
                 var serializedFile = context.SerializedFile
                     .FirstOrDefault(m => m.Id == id);
-                SerialFileDto serialFileDto = SerialFileDto.MapTo(serializedFile);
+                var serialFileDto = SerialFileDto.MapTo(serializedFile);
                 return serialFileDto;
             }
         }
@@ -58,61 +57,65 @@ namespace DbCoreLibrary.DbServiceModel
                 return false;
             }
 
-            if (serializedFile != null)
-            {
-                using (var context = new FiledbContext())
-                {                   
-                    context.Update(serializedFile);
-                    context.SaveChanges();
-                }
-                return true;
+            using (var context = new FiledbContext())
+            {                   
+                context.Update(serializedFile);
+                context.SaveChanges();
             }
-            return false;
+            return true;
+          
         }
 
         public bool FileCreate(SerialFileDto serialFileDto)
-        {
-            if (serialFileDto != null)
+        {           
+
+            if (IsDuplicate(serialFileDto.Name))
+                return false;
+
+            using (var context = new FiledbContext())
             {
-                using (var context = new FiledbContext())
-                {
-                    var serializedFile = SerialFileDto.MapTo(serialFileDto);
-                    context.SerializedFile.Add(serializedFile);
-                    context.SaveChanges();                  
-                }
-                return true;
+                var serializedFile = SerialFileDto.MapTo(serialFileDto);
+                context.SerializedFile.Add(serializedFile);
+                context.SaveChanges();                  
             }
-            return false;
+            return true;
         }
 
         public bool FileDbUpload(string fileName)
         {
-            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
-            string localPath = $@"{LOCALPATHROOTH}{fileName}";
+            const string localpathrooth = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+            var localPath = $@"{localpathrooth}{fileName}";
 
-            if (File.Exists(localPath))
-            {
-                using (var context = new FiledbContext())
-                {
+            if (!File.Exists(localPath)) return false;
 
-                    var fileDto = new SerialFileDto
-                    {
-                        Name = fileName.Split('.')[0],
-                        Extension = fileName.Split('.')[1],
-                        FileContent = File.ReadAllText(localPath),
-                    };
-
-                    var file = SerialFileDto.MapTo(fileDto);
-
-                    context.SerializedFile.Add(file);
-                    context.SaveChanges();
-                }
-                return true;
-            }
-            else
-            {
+            if (IsDuplicate(fileName))
                 return false;
+            
+            using (var context = new FiledbContext())
+            {
+                var fileDto = new SerialFileDto
+                {
+                    Name = fileName.Split('.')[0],
+                    Extension = fileName.Split('.')[1],
+                    FileContent = File.ReadAllText(localPath),
+                };
+
+                var file = SerialFileDto.MapTo(fileDto);
+
+                context.SerializedFile.Add(file);
+                context.SaveChanges();
             }
+            return true;
+        }
+
+        public bool IsDuplicate(string fileName)
+        {
+            var dbFileName = fileName.Split('.')[0];
+            var isDuplicate = false;
+            var context = new FiledbContext();
+            if (context.SerializedFile.Any(s => s.Name.Contains(dbFileName)))
+                isDuplicate = true;
+            return isDuplicate;
         }
 
         public bool FileDelete(List<int?> checkedIds)
@@ -131,7 +134,7 @@ namespace DbCoreLibrary.DbServiceModel
                         var fileToDelete = context.SerializedFile.FirstOrDefault(s => s.Id == id);
                         try
                         {
-                            context.Remove(fileToDelete);
+                            if (fileToDelete != null) context.Remove(fileToDelete);
                             context.SaveChanges();
                         }
                         catch (ArgumentNullException)

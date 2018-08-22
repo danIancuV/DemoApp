@@ -90,7 +90,7 @@ namespace WebApplicationTextFileDemoApp.Controllers
 
             else
             {
-                return Content("File not created");
+                return Content("Please choose another file name");
             }     
         }
 
@@ -115,7 +115,7 @@ namespace WebApplicationTextFileDemoApp.Controllers
 
             else
             {
-                return Content("Please select a local file");
+                return Content("Please select a non-existing dB local file");
             }
         }
 
