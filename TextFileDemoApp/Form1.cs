@@ -1,24 +1,19 @@
 ﻿using System;
-
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using FileClassLibrary;
 using FileClassLibrary.FileServiceModel;
 
 namespace TextFileDemoApp
 {
     public partial class TextFileForm : Form
     {
-        private readonly FileSelection _fileSelection;
-        private readonly FileSerialization _fileSerialization;
-        private readonly FileLocalService _fileLocalService;
+        public readonly FileSerialization _fileSerialization;
+        public readonly FileLocalService _fileLocalService;
         
 
         public TextFileForm()
         {
-            _fileSelection = new FileSelection();
             _fileSerialization = new FileSerialization();
             _fileLocalService = new FileLocalService();
             
@@ -32,7 +27,7 @@ namespace TextFileDemoApp
             button6.Enabled = false;
         }
 
-        private void ButtonBrowseFile_Click(object sender, EventArgs e)
+        private void BtnBrowseFile(object sender, EventArgs e)
         {
             button6.Enabled = true;
             fileNameBox.Text = BrowseFile();
@@ -40,14 +35,9 @@ namespace TextFileDemoApp
 
             string BrowseFile()
             {
-                OpenFileDialog openFd = new OpenFileDialog();
+                var openFd = new OpenFileDialog();
 
-                if (openFd.ShowDialog() == DialogResult.OK)
-                {
-                    return Path.GetFileName(openFd.FileName);
-                }
-
-                return null;
+                return openFd.ShowDialog() == DialogResult.OK ? Path.GetFileName(openFd.FileName) : null;
             }
         }
         
@@ -63,28 +53,27 @@ namespace TextFileDemoApp
         {
             if (fileGridView.Rows.Count == 0)
             {
-                MessageBox.Show(@"Please upload a file to Grid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Please upload a file to Grid!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            int checkedItemsNb = GetCheckedItemsNo();
+            var checkedItemsNb = GetCheckedItemsNo();
 
             if (checkedItemsNb == 1)
             {
 
-                int checkedItemIndex = fileGridView.SelectedCells[0].RowIndex;
-                DataGridViewRow selectedRow = fileGridView.Rows[checkedItemIndex];
+                var checkedItemIndex = fileGridView.SelectedCells[0].RowIndex;
+                var selectedRow = fileGridView.Rows[checkedItemIndex];
 
                 var checkedItem = Convert.ToString(selectedRow.Cells["Name"].Value);
                 var checkedExt = "." + Convert.ToString(selectedRow.Cells["DownloadFormat"].Value);
 
-                const string LOCALEXT = ".txt";
-                const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
-                string localPath = $@"{LOCALPATHROOTH}{checkedItem}{LOCALEXT}";
-
+                const string localext = ".txt";
+                const string localpathrooth = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+                var localPath = $@"{localpathrooth}{checkedItem}{localext}";
 
                 var checkedItemContent = File.ReadAllText(localPath);
-                SerializedFileDto file = _fileSerialization.CreateFile(checkedItem, checkedExt, checkedItemContent);
+                var file = _fileSerialization.CreateFile(checkedItem, checkedExt, checkedItemContent);
 
                 switch (checkedExt)
                 {
@@ -110,26 +99,23 @@ namespace TextFileDemoApp
             {
                 var checkedItemsList = GetCheckedItemsList();
 
-                List<SerializedFileDto> serializedItemsList = new List<SerializedFileDto>();
+                var serializedItemsList = new List<SerializedFileDto>();
                 foreach (var file in checkedItemsList)
                 {
-                    string checkedExt = file.Extension;
+                    var checkedExt = file.Extension;
                     switch (checkedExt)
                     {
                         case ".xml":
                             SerializedFileDto xmlSerializedFile = _fileSerialization.XmlSerializeToFile(file);
                             serializedItemsList.Add(xmlSerializedFile);
-
                             break;
                         case ".json":
                             SerializedFileDto jsonSerializedFile = _fileSerialization.JsonSerializeToFile(file);
                             serializedItemsList.Add(jsonSerializedFile);
-
                             break;
                         case ".bin":
                             SerializedFileDto binSerializedFile = _fileSerialization.JsonSerializeToFile(file);
                             serializedItemsList.Add(binSerializedFile);
-
                             break;
                         default:
                             MessageBox.Show(@"Please select a format to download");
@@ -137,17 +123,8 @@ namespace TextFileDemoApp
                     }
                 }
 
-                bool isArchived = _fileLocalService.ZipFileArchive(serializedItemsList);
-                if (isArchived)
-                {
-                    MessageBox.Show(@"Zip download done");
-                    return;
-                }
-                else
-                {
-                    MessageBox.Show(@"Please Select a file to download");
-                    return;
-                }
+                var isArchived = _fileLocalService.ZipFileArchive(serializedItemsList);
+                MessageBox.Show(isArchived ? @"Zip download done" : @"Please Select a file to download");
             }
             else
             {
@@ -159,7 +136,7 @@ namespace TextFileDemoApp
         {
             var checkedItemsList = GetCheckedItemsList();
 
-            List<SerializedFileDto> dtoAfterDeleteList = _fileLocalService.FileDelete(checkedItemsList);
+            var dtoAfterDeleteList = _fileLocalService.FileDelete(checkedItemsList);
             if (dtoAfterDeleteList != null)
             {
                 fileGridView.DataSource = typeof(List<SerializedFileDto>);
@@ -177,11 +154,12 @@ namespace TextFileDemoApp
 
         public int GetCheckedItemsNo()
         {
-            int checkedItemsNo = 0;
+            var checkedItemsNo = 0;
 
-            foreach (DataGridViewRow row in fileGridView.Rows)
+            for (var index = 0; index < fileGridView.Rows.Count; index++)
             {
-                bool isChecked = (bool)row.Cells[0].EditedFormattedValue;
+                var row = fileGridView.Rows[index];
+                var isChecked = (bool) row.Cells[0].EditedFormattedValue;
                 if (isChecked)
                 {
                     checkedItemsNo++;
@@ -193,24 +171,22 @@ namespace TextFileDemoApp
 
         public List<SerializedFileDto> GetCheckedItemsList()
         {
-            List<SerializedFileDto> checkedItemsList = new List<SerializedFileDto>();
+            var checkedItemsList = new List<SerializedFileDto>();
 
             foreach (DataGridViewRow row in fileGridView.Rows)
             {
-                bool isChecked = (bool)row.Cells[0].EditedFormattedValue;
-                string checkedItem = (string)row.Cells[2].EditedFormattedValue;
-                string checkedExt = (string)row.Cells[1].EditedFormattedValue;
+                var isChecked = (bool)row.Cells[0].EditedFormattedValue;
+                var checkedItem = (string)row.Cells[2].EditedFormattedValue;
+                var checkedExt = (string)row.Cells[1].EditedFormattedValue;
 
-                if (isChecked)
-                {
-                    const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
-                    string localPath = $@"{LOCALPATHROOTH}{checkedItem}";
-                    var checkedItemContent = _fileSelection.ReadFile(checkedItem, localPath);
+                if (!isChecked) continue;
+                const string localpathrooth = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+                var localPath = $@"{localpathrooth}{checkedItem}";
+                var checkedItemContent = _fileSerialization.ReadFile(checkedItem, localPath);
 
-                    SerializedFileDto file =
-                        _fileSerialization.CreateFile(checkedItem, "." + checkedExt, checkedItemContent);
-                    checkedItemsList.Add(file);
-                }
+                var file =
+                    _fileSerialization.CreateFile(checkedItem, "." + checkedExt, checkedItemContent);
+                checkedItemsList.Add(file);
 
             }
             return checkedItemsList;
@@ -222,4 +198,5 @@ namespace TextFileDemoApp
         }
 
     }
+
 }

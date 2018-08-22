@@ -6,6 +6,6 @@ namespace FileClassLibrary.FileServiceModel
     {
         xml,
         json,
-        bin,
+        bin
     }
 }

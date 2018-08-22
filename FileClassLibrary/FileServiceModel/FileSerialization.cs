@@ -4,8 +4,27 @@ using Newtonsoft.Json;
 
 namespace FileClassLibrary.FileServiceModel
 {
-    public class FileSerialization: FileSelection
+    public class FileSerialization
     {
+
+        public string ReadFile(string file, string path)
+        {
+            if (File.Exists(path))
+            {
+                using (var stream = File.OpenRead(path))
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        string text = reader.ReadToEnd();
+                        return text;
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public SerializedFileDto CreateFile(string fileName, string ext, string fileContent)
         {
@@ -22,12 +41,12 @@ namespace FileClassLibrary.FileServiceModel
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(SerializedFileDto));
             var path = $@"D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\{file.Name}{file.Extension}";
             var localFile = File.Create(path);
-            serializer.Serialize(localFile, file);
+            serializer.Serialize(stream: localFile, o: file);
             localFile.Close();
            
             var serializedItemContent = ReadFile(file.Name + file.Extension, path);
 
-            SerializedFileDto serializedFile =
+            var serializedFile =
                 CreateFile(file.Name, file.Extension, serializedItemContent);
 
             return serializedFile;
@@ -41,12 +60,12 @@ namespace FileClassLibrary.FileServiceModel
             {
                 using (var writer = new JsonTextWriter(fileStream))
                 {
-                    serializer.Serialize(writer, file);
+                    serializer.Serialize(jsonWriter: writer, value: file);
                 }
             }
             var serializedItemContent = ReadFile(file.Name + file.Extension, path);
 
-            SerializedFileDto serializedFile =
+            var serializedFile =
                 CreateFile(file.Name, file.Extension, serializedItemContent);
 
             return serializedFile;
@@ -62,7 +81,7 @@ namespace FileClassLibrary.FileServiceModel
             }
             var serializedItemContent = ReadFile(file.Name + file.Extension, path);
 
-            SerializedFileDto serializedFile =
+            var serializedFile =
                 CreateFile(file.Name, file.Extension, serializedItemContent);
 
             return serializedFile;

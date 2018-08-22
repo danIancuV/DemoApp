@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Runtime.Remoting.Messaging;
 
 namespace FileClassLibrary.FileServiceModel
 {
 
     public class FileLocalService
     {
-
-        List<SerializedFileDto> fileDtoList = new List<SerializedFileDto>();
+        public readonly List<SerializedFileDto> FileDtoList = new List<SerializedFileDto>();
         public List<SerializedFileDto> FileGridUpload(string fileName)
         {
+            const string localpathrooth = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
+            var localPath = $@"{localpathrooth}{fileName}";
 
-            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\";
-            string localPath = $@"{LOCALPATHROOTH}{fileName}";
+            var isDuplicate = IsDuplicate(fileName);
 
+            if (isDuplicate)
+                return FileDtoList;
             if (File.Exists(localPath))
             {
                 var fileModel = new SerializedFileDto
@@ -24,21 +27,41 @@ namespace FileClassLibrary.FileServiceModel
                     FileContent = File.ReadAllText(localPath),
                 };
 
-                fileDtoList.Add(fileModel);
-                return fileDtoList;
+                FileDtoList.Add(fileModel);
+                return FileDtoList;
             }
-
             else
             {
                 return null;
             }
+
+        }
+
+        public bool IsDuplicate(string fileName)
+        {
+            var isDuplicate = false;
+            if (FileDtoList.Count != 0)
+            {               
+                foreach (var file in FileDtoList)
+                {
+                    if (fileName != file.Name + "." + file.Extension) continue;
+                    isDuplicate = true;
+                    break;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+            return isDuplicate;
         }
 
         public bool ZipFileArchive(List<SerializedFileDto> serializedItemsList)
         {
-            const string LOCALPATHROOTH = "D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\Files.zip";
+            const string localpathrooth = "D:\\App\\TextFileDemoApp\\Serialized dB downloaded\\Files.zip";
 
-            string zipPath = $@"{LOCALPATHROOTH}";
+            string zipPath = $@"{localpathrooth}";
 
             foreach (var file in serializedItemsList)
             {
@@ -48,13 +71,13 @@ namespace FileClassLibrary.FileServiceModel
                 }
                 else
                 {
-                    using (FileStream zipToOpen = new FileStream(zipPath, FileMode.OpenOrCreate))
+                    using (var zipToOpen = new FileStream(zipPath, FileMode.OpenOrCreate))
                     {
-                        using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
+                        using (var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
                         {
-                            ZipArchiveEntry readmeEntry =
+                            var readmeEntry =
                                 archive.CreateEntry(file.Name + file.Extension);
-                            using (StreamWriter writer = new StreamWriter(readmeEntry.Open()))
+                            using (var writer = new StreamWriter(readmeEntry.Open()))
                             {
                                 writer.Write(file.FileContent);
                                 writer.Close();
@@ -69,37 +92,32 @@ namespace FileClassLibrary.FileServiceModel
 
         public List<SerializedFileDto> FileDelete(List<SerializedFileDto> checkedItemsList)
         {
-            int i = 0;
+            const int i = 0;
 
-            if (checkedItemsList.Count != 0)
+            if (checkedItemsList.Count == 0) return null;
+            do
             {
-                do
+                var checkedfileName = checkedItemsList[i].Name;
+                const string checkedfileExt = ".txt";
+                var localPath =
+                    $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
+
+                for (var j = 0; j < FileDtoList.Count; j++)
                 {
-                    var checkedfileName = checkedItemsList[i].Name;
-                    var checkedfileExt = ".txt";
-                    var localPath =
-                        $@"D:\\App\\TextFileDemoApp\\TextFileDemoApp\\bin\\Debug\\{checkedfileName}{checkedfileExt}";
-
-                    for (int j = 0; j < fileDtoList.Count; j++)
+                    if (checkedfileName == FileDtoList[j].Name)
                     {
-                        if (checkedfileName == fileDtoList[j].Name)
-                        {
-                            fileDtoList.Remove(fileDtoList[j]);
-                        }
+                        FileDtoList.Remove(FileDtoList[j]);
                     }
+                }
 
-                    if (File.Exists(localPath))
-                    {
-                        checkedItemsList.Remove(checkedItemsList[i]);
-                        File.Delete(localPath);
-                    }
+                if (!File.Exists(localPath)) continue;
+                checkedItemsList.Remove(checkedItemsList[i]);
+                File.Delete(localPath);
 
 
-                } while (i < checkedItemsList.Count);
+            } while (i < checkedItemsList.Count);
 
-                return fileDtoList;
-            }
-            return null;
+            return FileDtoList;
         }
     }
 }
