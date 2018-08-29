@@ -170,7 +170,7 @@ WriteAttributeValue("", 1191, item.Id, 1191, 8, false);
             WriteLiteral("\r\n                    </td>\r\n                    <td>\r\n                        ");
             EndContext();
             BeginContext(1523, 53, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73dc383abd074c7ca097078d257e7c9b", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7816481070e84b708df78a5d63a95113", async() => {
                 BeginContext(1568, 4, true);
                 WriteLiteral("Edit");
                 EndContext();
@@ -205,7 +205,7 @@ WriteAttributeValue("", 1191, item.Id, 1191, 8, false);
             WriteLiteral(" |\r\n                        ");
             EndContext();
             BeginContext(1604, 59, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "267903eaf6f6413ab442bf2e29b82e68", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c96d6b959f0942d3a59afd071d8098aa", async() => {
                 BeginContext(1652, 7, true);
                 WriteLiteral("Details");
                 EndContext();
@@ -240,7 +240,7 @@ WriteAttributeValue("", 1191, item.Id, 1191, 8, false);
             WriteLiteral(" |\r\n                        ");
             EndContext();
             BeginContext(1691, 57, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3f0e28c70fb6464ba6d72e55de8b6fc3", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f6732b9517c2496992fc133226033323", async() => {
                 BeginContext(1738, 6, true);
                 WriteLiteral("Delete");
                 EndContext();
@@ -295,7 +295,7 @@ WriteAttributeValue("", 1191, item.Id, 1191, 8, false);
             WriteLiteral("        </tbody>\r\n    </table>\r\n    ");
             EndContext();
             BeginContext(2124, 130, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b517fe0e7c0b43ba866101f7de557b3d", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b5695ac1a1f5470886ea188d1f894664", async() => {
                 BeginContext(2152, 95, true);
                 WriteLiteral("\r\n        <input type=\"submit\" value=\"Download selected files\" class=\"btn btn-primary\" />\r\n    ");
                 EndContext();
