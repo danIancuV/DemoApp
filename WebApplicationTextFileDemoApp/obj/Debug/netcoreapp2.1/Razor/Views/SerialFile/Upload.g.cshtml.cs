@@ -46,7 +46,7 @@ using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"bc9e5a41acd0fc506324818369ed382436d7b93e", @"/Views/SerialFile/Upload.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2d882b82153552c148f24a13722acdd9051f19fe", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"16865a29ca7ce7e5abe582e1bda594cdd6a10ff6", @"/Views/_ViewImports.cshtml")]
     public class Views_SerialFile_Upload : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<DbCoreLibrary.SerialFileDto>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Upload", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -99,7 +99,7 @@ using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
             WriteLiteral("    ");
             EndContext();
             BeginContext(443, 111, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "629f83b9848d44a583adf6aa231f1e08", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "722992ccf127412286cfe83ed5526ab0", async() => {
                 BeginContext(469, 78, true);
                 WriteLiteral("\r\n        <input type=\"submit\" value=\"Upload\" class=\"btn btn-primary\" />\r\n    ");
                 EndContext();

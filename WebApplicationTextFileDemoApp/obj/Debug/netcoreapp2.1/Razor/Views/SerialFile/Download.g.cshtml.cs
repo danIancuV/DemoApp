@@ -46,7 +46,7 @@ using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 #line default
 #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"607a8b3f9e6c1147209b5496b8dd947f787e308a", @"/Views/SerialFile/Download.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2d882b82153552c148f24a13722acdd9051f19fe", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"16865a29ca7ce7e5abe582e1bda594cdd6a10ff6", @"/Views/_ViewImports.cshtml")]
     public class Views_SerialFile_Download : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<DbCoreLibrary.SerialFileDto>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Edit", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -170,7 +170,7 @@ WriteAttributeValue("", 1191, item.Id, 1191, 8, false);
             WriteLiteral("\r\n                    </td>\r\n                    <td>\r\n                        ");
             EndContext();
             BeginContext(1523, 53, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dccafea60ed84d418be47352d9d36cdc", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73dc383abd074c7ca097078d257e7c9b", async() => {
                 BeginContext(1568, 4, true);
                 WriteLiteral("Edit");
                 EndContext();
@@ -205,7 +205,7 @@ WriteAttributeValue("", 1191, item.Id, 1191, 8, false);
             WriteLiteral(" |\r\n                        ");
             EndContext();
             BeginContext(1604, 59, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e316b9d8d3134a149f76e65c8a0b3803", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "267903eaf6f6413ab442bf2e29b82e68", async() => {
                 BeginContext(1652, 7, true);
                 WriteLiteral("Details");
                 EndContext();
@@ -240,7 +240,7 @@ WriteAttributeValue("", 1191, item.Id, 1191, 8, false);
             WriteLiteral(" |\r\n                        ");
             EndContext();
             BeginContext(1691, 57, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "bde7b5d37e414c5aac9fe6e27a8a489e", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3f0e28c70fb6464ba6d72e55de8b6fc3", async() => {
                 BeginContext(1738, 6, true);
                 WriteLiteral("Delete");
                 EndContext();
@@ -295,7 +295,7 @@ WriteAttributeValue("", 1191, item.Id, 1191, 8, false);
             WriteLiteral("        </tbody>\r\n    </table>\r\n    ");
             EndContext();
             BeginContext(2124, 130, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73296942a603489db43dc9c035f75c69", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b517fe0e7c0b43ba866101f7de557b3d", async() => {
                 BeginContext(2152, 95, true);
                 WriteLiteral("\r\n        <input type=\"submit\" value=\"Download selected files\" class=\"btn btn-primary\" />\r\n    ");
                 EndContext();

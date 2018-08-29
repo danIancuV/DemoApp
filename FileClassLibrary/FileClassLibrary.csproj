@@ -52,8 +52,8 @@
     <Compile Include="FileServiceModel\FileExtEnum.cs" />
     <Compile Include="FileServiceModel\FileLocalService.cs" />
     <Compile Include="FileServiceModel\FileSerialization.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileServiceModel\SerializedFileDto.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
