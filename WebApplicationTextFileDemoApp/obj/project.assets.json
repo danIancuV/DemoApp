@@ -12334,11 +12334,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\App\\TextFileDemoApp\\WebApplicationTextFileDemoApp\\WebApplicationTextFileDemoApp.csproj",
+      "projectUniqueName": "D:\\APP\\TextFileDemoApp\\WebApplicationTextFileDemoApp\\WebApplicationTextFileDemoApp.csproj",
       "projectName": "WebApplicationTextFileDemoApp",
-      "projectPath": "D:\\App\\TextFileDemoApp\\WebApplicationTextFileDemoApp\\WebApplicationTextFileDemoApp.csproj",
+      "projectPath": "D:\\APP\\TextFileDemoApp\\WebApplicationTextFileDemoApp\\WebApplicationTextFileDemoApp.csproj",
       "packagesPath": "C:\\Users\\dan.iancu\\.nuget\\packages\\",
-      "outputPath": "D:\\App\\TextFileDemoApp\\WebApplicationTextFileDemoApp\\obj\\",
+      "outputPath": "D:\\APP\\TextFileDemoApp\\WebApplicationTextFileDemoApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -12357,8 +12357,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "D:\\App\\TextFileDemoApp\\DbCoreLibrary\\DbCoreLibrary.csproj": {
-              "projectPath": "D:\\App\\TextFileDemoApp\\DbCoreLibrary\\DbCoreLibrary.csproj"
+            "D:\\APP\\TextFileDemoApp\\DbCoreLibrary\\DbCoreLibrary.csproj": {
+              "projectPath": "D:\\APP\\TextFileDemoApp\\DbCoreLibrary\\DbCoreLibrary.csproj"
             }
           }
         }
