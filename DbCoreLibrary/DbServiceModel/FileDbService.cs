@@ -7,46 +7,49 @@ using System.Reflection.Metadata.Ecma335;
 namespace DbCoreLibrary.DbServiceModel
 {
 
-    public class FileDbService
+    public class FileDbService : IDisposable
     {
         public readonly FileDbSerialization FileDbSerialization = new FileDbSerialization();
+        private readonly FiledbContext _context;
+
+        public FileDbService(FiledbContext context)
+        {
+            this._context = context;
+        }
+
         public List<SerialFileDto> GetdBItems()
         {
             var dtoFileList = new List<SerialFileDto>();
 
 
-            using (var context = new FiledbContext())
-            {
-                var fileList = context.SerializedFile.ToList();
+                var fileList = _context.SerializedFile.ToList();
                 foreach (SerializedFile dbfile in fileList)
                 {
                     var fileDto = SerialFileDto.MapTo(dbfile);
                     dtoFileList.Add(fileDto);
                 }
                 return dtoFileList;
-            }
+            
         }
 
         public SerialFileDto GetDetails(int? id)
         {
-            using (var context = new FiledbContext())
-            {
-                var serializedFile = context.SerializedFile
+
+                var serializedFile = _context.SerializedFile
                     .FirstOrDefault(m => m.Id == id);
                 var serialFileDto = SerialFileDto.MapTo(serializedFile);
                 return serialFileDto;
-            }
+            
         }
 
         public SerialFileDto GetEdit(int? id)
         {
-            using (var context = new FiledbContext())
-            {
-                var serializedFile = context.SerializedFile
+
+                var serializedFile = _context.SerializedFile
                     .FirstOrDefault(m => m.Id == id);
                 var serialFileDto = SerialFileDto.MapTo(serializedFile);
                 return serialFileDto;
-            }
+            
         }
 
         public bool PerformEdit(int id, SerialFileDto serialFileDto)
@@ -57,11 +60,10 @@ namespace DbCoreLibrary.DbServiceModel
                 return false;
             }
 
-            using (var context = new FiledbContext())
-            {                   
-                context.Update(serializedFile);
-                context.SaveChanges();
-            }
+                   
+                _context.Update(serializedFile);
+                _context.SaveChanges();
+            
             return true;
           
         }
@@ -72,12 +74,11 @@ namespace DbCoreLibrary.DbServiceModel
             if (IsDuplicate(serialFileDto.Name))
                 return false;
 
-            using (var context = new FiledbContext())
-            {
+
                 var serializedFile = SerialFileDto.MapTo(serialFileDto);
-                context.SerializedFile.Add(serializedFile);
-                context.SaveChanges();                  
-            }
+                _context.SerializedFile.Add(serializedFile);
+                _context.SaveChanges();                  
+            
             return true;
         }
 
@@ -91,8 +92,7 @@ namespace DbCoreLibrary.DbServiceModel
             if (IsDuplicate(fileName))
                 return false;
             
-            using (var context = new FiledbContext())
-            {
+
                 var fileDto = new SerialFileDto
                 {
                     Name = fileName.Split('.')[0],
@@ -102,9 +102,9 @@ namespace DbCoreLibrary.DbServiceModel
 
                 var file = SerialFileDto.MapTo(fileDto);
 
-                context.SerializedFile.Add(file);
-                context.SaveChanges();
-            }
+                _context.SerializedFile.Add(file);
+                _context.SaveChanges();
+            
             return true;
         }
 
@@ -112,8 +112,7 @@ namespace DbCoreLibrary.DbServiceModel
         {
             var dbFileName = fileName.Split('.')[0];
             var isDuplicate = false;
-            var context = new FiledbContext();
-            if (context.SerializedFile.Any(s => s.Name.Contains(dbFileName)))
+            if (_context.SerializedFile.Any(s => s.Name.Contains(dbFileName)))
                 isDuplicate = true;
             return isDuplicate;
         }
@@ -126,16 +125,15 @@ namespace DbCoreLibrary.DbServiceModel
             }
             else
             {
-                using (var context = new FiledbContext())
-                {
+
                     foreach (var id in checkedIds)
                     {
 
-                        var fileToDelete = context.SerializedFile.FirstOrDefault(s => s.Id == id);
+                        var fileToDelete = _context.SerializedFile.FirstOrDefault(s => s.Id == id);
                         try
                         {
-                            if (fileToDelete != null) context.Remove(fileToDelete);
-                            context.SaveChanges();
+                            if (fileToDelete != null) _context.Remove(fileToDelete);
+                            _context.SaveChanges();
                         }
                         catch (ArgumentNullException)
                         {
@@ -144,7 +142,7 @@ namespace DbCoreLibrary.DbServiceModel
                     }
                     return true;
                 }
-            }
+            
         }
 
         public bool FileDbDownload(SerialFileDto serialFileDto)
@@ -187,6 +185,11 @@ namespace DbCoreLibrary.DbServiceModel
             //    }
             return true;
             //}
+        }
+
+        public void Dispose()
+        {
+            _context?.Dispose();
         }
     }
 }

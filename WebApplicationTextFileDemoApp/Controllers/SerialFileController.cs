@@ -12,7 +12,12 @@ namespace WebApplicationTextFileDemoApp.Controllers
 {
     public class SerialFileController : Controller
     {
-        private readonly FileDbService _fileDbService = new FileDbService();      
+        private readonly FileDbService _fileDbService;
+
+        public SerialFileController(FileDbService fileDbService)
+        {
+            _fileDbService = fileDbService;
+        }
 
         // GET: SerialFile
         public IActionResult Index()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -8,6 +9,7 @@ namespace DbCoreLibrary
     {
         public FiledbContext()
         {
+            
         }
 
         public FiledbContext(DbContextOptions<FiledbContext> options)
@@ -21,8 +23,10 @@ namespace DbCoreLibrary
         {
             if (!optionsBuilder.IsConfigured)
             {
+/*
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=PC1021\\SQLEXPRESS;Database=filedb;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=tcp:filedb.database.windows.net,1433;Initial Catalog=filedb;Persist Security Info=False;User ID=daniancu;Password=Fishing19;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            */
             }
         }
 

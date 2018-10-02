@@ -30,7 +30,6 @@ namespace TextFileDemoApp
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.fileNameBox = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
@@ -40,11 +39,9 @@ namespace TextFileDemoApp
             this.label2 = new System.Windows.Forms.Label();
             this.button11 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.serializedFileBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.fileGridView = new System.Windows.Forms.DataGridView();
             this.FileCheck = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.DownloadFormat = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.serializedFileBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -135,10 +132,6 @@ namespace TextFileDemoApp
             this.label3.TabIndex = 16;
             this.label3.Text = "Please select a file or multiple files in the list";
             // 
-            // serializedFileBindingSource
-            // 
-            this.serializedFileBindingSource.DataMember = "SerializedFile";
-            // 
             // fileGridView
             // 
             this.fileGridView.AllowUserToAddRows = false;
@@ -175,7 +168,6 @@ namespace TextFileDemoApp
             this.Controls.Add(this.fileNameBox);
             this.Controls.Add(this.button1);
             this.Name = "TextFileForm";
-            ((System.ComponentModel.ISupportInitialize)(this.serializedFileBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -193,8 +185,6 @@ namespace TextFileDemoApp
         protected Label label2;
         protected Button button11;
         protected Label label3;
-
-        private BindingSource serializedFileBindingSource;
 
         
         private DataGridView fileGridView;

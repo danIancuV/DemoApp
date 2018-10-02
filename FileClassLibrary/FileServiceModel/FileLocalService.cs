@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
 
 namespace FileClassLibrary.FileServiceModel
@@ -63,26 +64,21 @@ namespace FileClassLibrary.FileServiceModel
 
             string zipPath = $@"{localpathrooth}";
 
-            foreach (var file in serializedItemsList)
-            {
-                if (file == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    using (var zipToOpen = new FileStream(zipPath, FileMode.OpenOrCreate))
-                    {
-                        using (var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
-                        {
-                            var readmeEntry =
-                                archive.CreateEntry(file.Name + file.Extension);
-                            using (var writer = new StreamWriter(readmeEntry.Open()))
-                            {
-                                writer.Write(file.FileContent);
-                                writer.Close();
+            IEnumerable<SerializedFileDto> fileList = serializedItemsList.Where(s => s != null).ToList();           
 
-                            }
+            foreach (var file in fileList)
+            {
+                using (var zipToOpen = new FileStream(zipPath, FileMode.OpenOrCreate))
+                {
+                    using (var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
+                    {
+                        var readmeEntry =
+                            archive.CreateEntry(file.Name + file.Extension);
+                        using (var writer = new StreamWriter(readmeEntry.Open()))
+                        {
+                            writer.Write(file.FileContent);
+                            writer.Close();
+
                         }
                     }
                 }
