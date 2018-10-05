@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -32,11 +33,33 @@ namespace PublicAPIDemoApp
                 if (!response.IsSuccessStatusCode) return null;
                 var result = response.Content.ReadAsStringAsync().Result;
                 var rootResult = JsonConvert.DeserializeObject<RootObject>(result);
-                var ratesList = new List<Rates> {rootResult.rates};
+                var ratesList = new List<Rates> { rootResult.rates };
                 return ratesList;
-
             }
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var currencyResultList = GetCurrency();
+            var selectedCadCurrencyResult = currencyResultList[0].CAD;
+            var selectedEurCurrencyResult = currencyResultList[0].EUR;
+            var selectedUsdCurrencyResult = currencyResultList[0].USD;
+
+            var currency = comboBox1.SelectedItem.ToString();
+            switch (currency)
+            {
+                case "CAD":
+                    label1.Text = selectedCadCurrencyResult.ToString();
+                    break;
+                case "EUR":
+                    label1.Text = selectedEurCurrencyResult.ToString();
+                    break;
+                case "USD":
+                    label1.Text = selectedUsdCurrencyResult.ToString();
+                    break;
+            }
+        }
+
 
     }
 }

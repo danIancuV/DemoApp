@@ -10,7 +10,6 @@ D:\App\TextFileDemoApp-monday-commit-6-august\DbCoreLibrary\obj\Debug\netcoreapp
 D:\APP\TextFileDemoApp\DbCoreLibrary\bin\Debug\netcoreapp2.1\DbCoreLibrary.deps.json
 D:\APP\TextFileDemoApp\DbCoreLibrary\bin\Debug\netcoreapp2.1\DbCoreLibrary.dll
 D:\APP\TextFileDemoApp\DbCoreLibrary\bin\Debug\netcoreapp2.1\DbCoreLibrary.pdb
-D:\APP\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.csprojAssemblyReference.cache
 D:\APP\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.csproj.CoreCompileInputs.cache
 D:\APP\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.AssemblyInfoInputs.cache
 D:\APP\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.AssemblyInfo.cs
