@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileClassLibrary", "FileCla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextFileDemoApp", "TextFileDemoApp\TextFileDemoApp.csproj", "{508B0AAA-D411-4D4B-98AA-CD10E0374F42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicAPIDemoApp", "PublicAPIDemoApp\PublicAPIDemoApp.csproj", "{EE8239F2-DDFA-4EA8-8AB1-A2846BAAC7CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{508B0AAA-D411-4D4B-98AA-CD10E0374F42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{508B0AAA-D411-4D4B-98AA-CD10E0374F42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{508B0AAA-D411-4D4B-98AA-CD10E0374F42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE8239F2-DDFA-4EA8-8AB1-A2846BAAC7CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE8239F2-DDFA-4EA8-8AB1-A2846BAAC7CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE8239F2-DDFA-4EA8-8AB1-A2846BAAC7CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE8239F2-DDFA-4EA8-8AB1-A2846BAAC7CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
