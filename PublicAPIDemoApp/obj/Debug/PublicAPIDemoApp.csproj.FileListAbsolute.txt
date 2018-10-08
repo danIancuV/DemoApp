@@ -11,3 +11,5 @@ D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.csproj.CoreCo
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.csproj.CopyComplete
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.exe
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.pdb
+D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\System.Net.Http.Formatting.dll
+D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\System.Net.Http.Formatting.xml

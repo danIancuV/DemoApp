@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -22,7 +23,7 @@ namespace PublicAPIDemoApp
 
         private void button1_ClickAsync(object sender, EventArgs e)
         {
-            var currencyResult = GetCurrency();
+            var currencyResult = GetGridCurrencies();
             dataGridView1.DataSource = currencyResult;
         }
 
@@ -36,7 +37,21 @@ namespace PublicAPIDemoApp
             GetConvertedFinalAmount();
         }
 
-        private static List<Rates> GetCurrency()
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var myRates = new Rates();
+            myRates = GetRateApiResponse().Result;
+            if (myRates != null)
+            {
+                MessageBox.Show(string.Format("USD rate is: {0}", myRates.USD.ToString(CultureInfo.CurrentCulture), MessageBoxButtons.OK));
+            }
+            else
+            {
+                MessageBox.Show(@"Missing rate");
+            }
+        }
+
+        private static List<Rates> GetGridCurrencies()
         {
             const string apiUrl = "http://data.fixer.io/api/latest?access_key=";
             const string apiKey = "c6469effe16603f8a5b21335e6b9b027";
@@ -50,13 +65,13 @@ namespace PublicAPIDemoApp
                 var result = response.Content.ReadAsStringAsync().Result;
                 var rootResult = JsonConvert.DeserializeObject<RootObject>(result);
                 var ratesList = new List<Rates> { rootResult.rates };
-                return ratesList;               
+                return ratesList;
             }
         }
- 
+
         private void GetSelectedCurrency()
         {
-            var currencyResultList = GetCurrency();
+            var currencyResultList = GetGridCurrencies();
             var selectedCadCurrencyResult = currencyResultList[0].CAD;
             var selectedEurCurrencyResult = currencyResultList[0].EUR;
             var selectedUsdCurrencyResult = currencyResultList[0].USD;
@@ -74,22 +89,22 @@ namespace PublicAPIDemoApp
                     label1.Text = selectedUsdCurrencyResult.ToString(CultureInfo.CurrentCulture);
                     break;
             }
-        } 
+        }
 
         private void GetConvertedFinalAmount()
         {
-            var rates = GetCurrency()[0];
+            var rates = GetGridCurrencies()[0];
             var fromCurrencyName = comboBox2.SelectedItem.ToString();
             var toCurrencyName = comboBox3.SelectedItem.ToString();
             var selectedFromCurrencyRateValue =
                 Convert.ToDouble(typeof(Rates).GetProperty(fromCurrencyName)?.GetValue(rates));
             var selectedToCurrencyRateValue =
-                Convert.ToDouble(typeof(Rates).GetProperty(toCurrencyName)?.GetValue(rates));           
+                Convert.ToDouble(typeof(Rates).GetProperty(toCurrencyName)?.GetValue(rates));
             try
             {
                 var initialAmount = Double.Parse(textBox1.Text);
                 var finalAmount = Math.Round(((initialAmount / selectedFromCurrencyRateValue) * selectedToCurrencyRateValue), 2);
-                
+
                 textBox2.Text = finalAmount.ToString(CultureInfo.CurrentCulture);
             }
             catch (FormatException)
@@ -100,7 +115,7 @@ namespace PublicAPIDemoApp
 
         private List<string> GetRatesList()
         {
-            Rates rates = GetCurrency()[0];
+            Rates rates = GetGridCurrencies()[0];
             var properties = rates.GetType().GetProperties().ToList();
             var fields = new List<string>();
             foreach (var prop in properties)
@@ -111,6 +126,26 @@ namespace PublicAPIDemoApp
             return fields;
         }
 
-    }
+        static async Task<Rates> GetRateApiResponse()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://data.fixer.io/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
+                var response = client.GetAsync("http://data.fixer.io/api/latest?access_key=c6469effe16603f8a5b21335e6b9b027").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    RootObject root = await response.Content.ReadAsAsync<RootObject>();
+                    return root.rates;
+
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+    }
 }
