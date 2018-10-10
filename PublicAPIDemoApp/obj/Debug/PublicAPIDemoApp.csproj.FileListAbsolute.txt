@@ -2,7 +2,11 @@ D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\PublicAPIDemoApp.exe.config
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\PublicAPIDemoApp.exe
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\PublicAPIDemoApp.pdb
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\Newtonsoft.Json.dll
+D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\PublicAPILibrary.dll
+D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\System.Net.Http.Formatting.dll
+D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\PublicAPILibrary.pdb
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\Newtonsoft.Json.xml
+D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\System.Net.Http.Formatting.xml
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.csprojAssemblyReference.cache
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.Form1.resources
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.Properties.Resources.resources
@@ -11,5 +15,3 @@ D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.csproj.CoreCo
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.csproj.CopyComplete
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.exe
 D:\APP\TextFileDemoApp\PublicAPIDemoApp\obj\Debug\PublicAPIDemoApp.pdb
-D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\System.Net.Http.Formatting.dll
-D:\APP\TextFileDemoApp\PublicAPIDemoApp\bin\Debug\System.Net.Http.Formatting.xml

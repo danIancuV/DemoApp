@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PublicAPIDemoApp.Properties
+namespace PublicAPILibrary.Properties
 {
 
 

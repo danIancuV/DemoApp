@@ -1,151 +1,66 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
-using Newtonsoft.Json;
+using PublicAPILibrary;
 
 namespace PublicAPIDemoApp
 {
     public partial class Form1 : Form
     {
+        private readonly BindingSource _gridBindingSource = new BindingSource();
+        private readonly PublicApiServices _services = new PublicApiServices();
+        
+       
         public Form1()
         {
             InitializeComponent();
-            GetRatesList();
-            comboBox2.DataSource = GetRatesList();
-            comboBox3.DataSource = GetRatesList();
-            textBox2.ReadOnly = true;
+            const string key = "c6469effe16603f8a5b21335e6b9b027";
+            fromCurrencyComboBox.DataSource = _services.GetRatesList(key);
+            toCurrencyComboBox.DataSource = _services.GetRatesList(key);
+            finalAmountTextBox.ReadOnly = true;          
+        }
+        private void GetRatesButton_Click(object sender, EventArgs e)
+        {
+            const string key = "c6469effe16603f8a5b21335e6b9b027";
+            Rates currencyRates = _services.GetCurrencyRates(key);
+            _gridBindingSource.Add(currencyRates);
+            RatesGridView.DataSource = _gridBindingSource;
+        }
+      
+        private void CurrencyComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {           
+            var currency = CurrencyComboBox.SelectedItem.ToString();
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("fr-FR");
+            Thread.CurrentThread.CurrentCulture = culture;
+
+            selectedRateLabel.Text = _services.GetSelectedCurrencyRate(currency).ToString(CultureInfo.DefaultThreadCurrentCulture) + " " + CultureInfo.CurrentCulture;            
         }
 
-        private void button1_ClickAsync(object sender, EventArgs e)
-        {
-            var currencyResult = GetGridCurrencies();
-            dataGridView1.DataSource = currencyResult;
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            GetSelectedCurrency();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            GetConvertedFinalAmount();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            var myRates = new Rates();
-            myRates = GetRateApiResponse().Result;
-            if (myRates != null)
-            {
-                MessageBox.Show(string.Format("USD rate is: {0}", myRates.USD.ToString(CultureInfo.CurrentCulture), MessageBoxButtons.OK));
-            }
-            else
-            {
-                MessageBox.Show(@"Missing rate");
-            }
-        }
-
-        private static List<Rates> GetGridCurrencies()
-        {
-            const string apiUrl = "http://data.fixer.io/api/latest?access_key=";
-            const string apiKey = "c6469effe16603f8a5b21335e6b9b027";
-
-            using (var client = new HttpClient())
-            {
-                const string repUrl = apiUrl + apiKey + "&format=1";
-                var response = client.GetAsync(repUrl).Result;
-
-                if (!response.IsSuccessStatusCode) return null;
-                var result = response.Content.ReadAsStringAsync().Result;
-                var rootResult = JsonConvert.DeserializeObject<RootObject>(result);
-                var ratesList = new List<Rates> { rootResult.rates };
-                return ratesList;
-            }
-        }
-
-        private void GetSelectedCurrency()
-        {
-            var currencyResultList = GetGridCurrencies();
-            var selectedCadCurrencyResult = currencyResultList[0].CAD;
-            var selectedEurCurrencyResult = currencyResultList[0].EUR;
-            var selectedUsdCurrencyResult = currencyResultList[0].USD;
-
-            var currency = comboBox1.SelectedItem.ToString();
-            switch (currency)
-            {
-                case "CAD":
-                    label1.Text = selectedCadCurrencyResult.ToString(CultureInfo.CurrentCulture);
-                    break;
-                case "EUR":
-                    label1.Text = selectedEurCurrencyResult.ToString(CultureInfo.CurrentCulture);
-                    break;
-                case "USD":
-                    label1.Text = selectedUsdCurrencyResult.ToString(CultureInfo.CurrentCulture);
-                    break;
-            }
-        }
-
-        private void GetConvertedFinalAmount()
-        {
-            var rates = GetGridCurrencies()[0];
-            var fromCurrencyName = comboBox2.SelectedItem.ToString();
-            var toCurrencyName = comboBox3.SelectedItem.ToString();
-            var selectedFromCurrencyRateValue =
-                Convert.ToDouble(typeof(Rates).GetProperty(fromCurrencyName)?.GetValue(rates));
-            var selectedToCurrencyRateValue =
-                Convert.ToDouble(typeof(Rates).GetProperty(toCurrencyName)?.GetValue(rates));
+        private void ConvertButtonClick(object sender, EventArgs e)
+        {          
+            var fromCurrency = fromCurrencyComboBox.SelectedItem.ToString();
+            var toCurrency = toCurrencyComboBox.SelectedItem.ToString();           
             try
             {
-                var initialAmount = Double.Parse(textBox1.Text);
-                var finalAmount = Math.Round(((initialAmount / selectedFromCurrencyRateValue) * selectedToCurrencyRateValue), 2);
-
-                textBox2.Text = finalAmount.ToString(CultureInfo.CurrentCulture);
+                var initialAmount = Decimal.Parse(initialAmountTextBox.Text);
+                decimal finalAmount = _services.ConvertAmount(fromCurrency, initialAmount, toCurrency);
+                finalAmountTextBox.Text = finalAmount.ToString(CultureInfo.InvariantCulture);
             }
             catch (FormatException)
             {
                 MessageBox.Show(@"Please specify an amount!");
+                finalAmountTextBox.Clear();
             }
         }
 
-        private List<string> GetRatesList()
+        private void InstantUSDRateButton_Click(object sender, EventArgs e)
         {
-            Rates rates = GetGridCurrencies()[0];
-            var properties = rates.GetType().GetProperties().ToList();
-            var fields = new List<string>();
-            foreach (var prop in properties)
-            {
-                fields.Add(prop.Name);
-            }
-
-            return fields;
+            const string key = "c6469effe16603f8a5b21335e6b9b027";
+            var instantUsdRate = _services.GetCurrencyRates(key).USD.ToString(CultureInfo.InvariantCulture);
+            MessageBox.Show($@"USD rate is: {instantUsdRate}");
         }
 
-        static async Task<Rates> GetRateApiResponse()
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://data.fixer.io/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var response = client.GetAsync("http://data.fixer.io/api/latest?access_key=c6469effe16603f8a5b21335e6b9b027").Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    RootObject root = await response.Content.ReadAsAsync<RootObject>();
-                    return root.rates;
-
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
     }
 }
