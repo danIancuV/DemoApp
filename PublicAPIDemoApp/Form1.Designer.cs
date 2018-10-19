@@ -1432,9 +1432,9 @@
             this.selectedRateLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selectedRateLabel.Location = new System.Drawing.Point(158, 47);
             this.selectedRateLabel.Name = "selectedRateLabel";
-            this.selectedRateLabel.Size = new System.Drawing.Size(117, 19);
+            this.selectedRateLabel.Size = new System.Drawing.Size(32, 19);
             this.selectedRateLabel.TabIndex = 6;
-            this.selectedRateLabel.Text = "USD_instant_rate";
+            this.selectedRateLabel.Text = "rate";
             // 
             // CurrencyComboBox
             // 

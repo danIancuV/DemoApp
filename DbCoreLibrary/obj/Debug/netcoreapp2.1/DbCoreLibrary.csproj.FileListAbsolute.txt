@@ -15,3 +15,4 @@ D:\APP\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.Assem
 D:\APP\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.AssemblyInfo.cs
 D:\APP\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.dll
 D:\APP\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.pdb
+D:\App\TextFileDemoApp\DbCoreLibrary\obj\Debug\netcoreapp2.1\DbCoreLibrary.csprojAssemblyReference.cache

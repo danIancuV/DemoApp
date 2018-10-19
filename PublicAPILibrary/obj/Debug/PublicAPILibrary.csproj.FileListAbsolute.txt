@@ -1,0 +1,9 @@
+D:\APP\TextFileDemoApp\PublicAPILibrary\bin\Debug\PublicAPILibrary.dll
+D:\APP\TextFileDemoApp\PublicAPILibrary\bin\Debug\PublicAPILibrary.pdb
+D:\APP\TextFileDemoApp\PublicAPILibrary\bin\Debug\Newtonsoft.Json.dll
+D:\APP\TextFileDemoApp\PublicAPILibrary\bin\Debug\Newtonsoft.Json.xml
+D:\APP\TextFileDemoApp\PublicAPILibrary\obj\Debug\PublicAPILibrary.csproj.CoreCompileInputs.cache
+D:\APP\TextFileDemoApp\PublicAPILibrary\obj\Debug\PublicAPILibrary.csproj.CopyComplete
+D:\APP\TextFileDemoApp\PublicAPILibrary\obj\Debug\PublicAPILibrary.dll
+D:\APP\TextFileDemoApp\PublicAPILibrary\obj\Debug\PublicAPILibrary.pdb
+D:\App\TextFileDemoApp\PublicAPILibrary\obj\Debug\PublicAPILibrary.csprojAssemblyReference.cache

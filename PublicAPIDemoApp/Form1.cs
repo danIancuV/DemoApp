@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PublicAPILibrary;
 
@@ -11,15 +12,14 @@ namespace PublicAPIDemoApp
     {
         private readonly BindingSource _gridBindingSource = new BindingSource();
         private readonly PublicApiServices _services = new PublicApiServices();
-        
-       
+
         public Form1()
         {
             InitializeComponent();
             const string key = "c6469effe16603f8a5b21335e6b9b027";
             fromCurrencyComboBox.DataSource = _services.GetRatesList(key);
             toCurrencyComboBox.DataSource = _services.GetRatesList(key);
-            finalAmountTextBox.ReadOnly = true;          
+            finalAmountTextBox.ReadOnly = true;
         }
         private void GetRatesButton_Click(object sender, EventArgs e)
         {
@@ -28,25 +28,39 @@ namespace PublicAPIDemoApp
             _gridBindingSource.Add(currencyRates);
             RatesGridView.DataSource = _gridBindingSource;
         }
-      
-        private void CurrencyComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {           
-            var currency = CurrencyComboBox.SelectedItem.ToString();
-            CultureInfo culture = CultureInfo.CreateSpecificCulture("fr-FR");
-            Thread.CurrentThread.CurrentCulture = culture;
 
-            selectedRateLabel.Text = _services.GetSelectedCurrencyRate(currency).ToString(CultureInfo.DefaultThreadCurrentCulture) + " " + CultureInfo.CurrentCulture;            
+        private void CurrencyComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var currency = CurrencyComboBox.SelectedItem.ToString();
+            
+            
+            CultureInfo invariantculture = CultureInfo.InvariantCulture; // culture indepent - invariant, en-US by default
+            CultureInfo currentculture = CultureInfo.CurrentCulture; // used by the current thread
+            CultureInfo currentUIculture = CultureInfo.CurrentUICulture; // used by UI
+            CultureInfo installedUIculture = CultureInfo.InstalledUICulture; // installed with the OS
+            CultureInfo defaultthreadcurrent = CultureInfo.DefaultThreadCurrentCulture; // default culture for threads
+            CultureInfo defaultthreadcurrentUi = CultureInfo.DefaultThreadCurrentUICulture; // default UI culture for threads
+
+            decimal value = 3.14M;
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("en");
+            var formattedvalue = value.ToString(culture);
+            currentculture = culture;
+            defaultthreadcurrent = culture;
+            Thread.CurrentThread.CurrentCulture = culture;
+            selectedRateLabel.Text = _services.GetSelectedCurrencyRate(currency).ToString(currentculture) + " " + currentculture;
         }
 
-        private void ConvertButtonClick(object sender, EventArgs e)
-        {          
+        private async void ConvertButtonClick(object sender, EventArgs e)
+        {
             var fromCurrency = fromCurrencyComboBox.SelectedItem.ToString();
-            var toCurrency = toCurrencyComboBox.SelectedItem.ToString();           
+            var toCurrency = toCurrencyComboBox.SelectedItem.ToString();
             try
             {
                 var initialAmount = Decimal.Parse(initialAmountTextBox.Text);
-                decimal finalAmount = _services.ConvertAmount(fromCurrency, initialAmount, toCurrency);
-                finalAmountTextBox.Text = finalAmount.ToString(CultureInfo.InvariantCulture);
+                Task<decimal> finalAmount = _services.ConvertAmountAsync(fromCurrency, initialAmount, toCurrency);
+                //finalAmountTextBox.Text = finalAmount.Result.ToString(CultureInfo.CurrentCulture); //deadlock
+                decimal res = await finalAmount;
+                finalAmountTextBox.Text = res.ToString(CultureInfo.CurrentUICulture); // lock - proof snippet
             }
             catch (FormatException)
             {
