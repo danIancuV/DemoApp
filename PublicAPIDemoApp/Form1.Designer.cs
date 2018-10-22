@@ -216,6 +216,7 @@
             this.InstantUSDButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.convertProgressBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.RatesGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ratesBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -1576,6 +1577,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.convertProgressBar);
             this.groupBox3.Controls.Add(this.fromCurrencyComboBox);
             this.groupBox3.Controls.Add(this.convertButton);
             this.groupBox3.Controls.Add(this.label3);
@@ -1589,10 +1591,17 @@
             this.groupBox3.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.groupBox3.Location = new System.Drawing.Point(20, 177);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(385, 126);
+            this.groupBox3.Size = new System.Drawing.Size(385, 136);
             this.groupBox3.TabIndex = 16;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Currency converter";
+            // 
+            // convertProgressBar
+            // 
+            this.convertProgressBar.Location = new System.Drawing.Point(0, 120);
+            this.convertProgressBar.Name = "convertProgressBar";
+            this.convertProgressBar.Size = new System.Drawing.Size(385, 16);
+            this.convertProgressBar.TabIndex = 14;
             // 
             // Form1
             // 
@@ -1619,9 +1628,7 @@
 
         private System.Windows.Forms.Button GetRatesButton;
         private System.Windows.Forms.DataGridView RatesGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cADDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn eURDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn uSDDataGridViewTextBoxColumn;
+       
         private System.Windows.Forms.Label selectedRateLabel;
         private System.Windows.Forms.ComboBox CurrencyComboBox;
         private System.Windows.Forms.Label label2;
@@ -1807,6 +1814,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn zMWDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn zWLDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource ratesBindingSource;
+        private System.Windows.Forms.ProgressBar convertProgressBar;
     }
 }
 

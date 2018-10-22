@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -51,16 +50,18 @@ namespace PublicAPIDemoApp
         }
 
         private async void ConvertButtonClick(object sender, EventArgs e)
-        {
+        {         
             var fromCurrency = fromCurrencyComboBox.SelectedItem.ToString();
             var toCurrency = toCurrencyComboBox.SelectedItem.ToString();
             try
-            {
+            {               
                 var initialAmount = Decimal.Parse(initialAmountTextBox.Text);
-                Task<decimal> finalAmount = _services.ConvertAmountAsync(fromCurrency, initialAmount, toCurrency);
-                //finalAmountTextBox.Text = finalAmount.Result.ToString(CultureInfo.CurrentCulture); //deadlock
+                var progressIndicator = new Progress<int>(ReportProgress);
+                Task<decimal> finalAmount = _services.ConvertAmountAsync(fromCurrency, initialAmount, toCurrency, progressIndicator);
+                //finalAmountTextBox.Text = finalAmount.Result.ToString(CultureInfo.CurrentCulture); //deadlock (no ConfigureAwait(false))
+                
                 decimal res = await finalAmount;
-                finalAmountTextBox.Text = res.ToString(CultureInfo.CurrentUICulture); // lock - proof snippet
+                finalAmountTextBox.Text = res.ToString(CultureInfo.CurrentUICulture); // deadlock-proof snippet
             }
             catch (FormatException)
             {
@@ -74,6 +75,11 @@ namespace PublicAPIDemoApp
             const string key = "c6469effe16603f8a5b21335e6b9b027";
             var instantUsdRate = _services.GetCurrencyRates(key).USD.ToString(CultureInfo.InvariantCulture);
             MessageBox.Show($@"USD rate is: {instantUsdRate}");
+        }
+
+        void ReportProgress(int value)
+        {
+            convertProgressBar.Increment(1);
         }
 
     }

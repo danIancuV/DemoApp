@@ -48,7 +48,7 @@ namespace PublicAPILibrary
             return -1;
         }
 
-        public async Task<decimal> ConvertAmountAsync(string fromcurrency, decimal initialamount, string tocurrency)
+        public async Task<decimal> ConvertAmountAsync(string fromcurrency, decimal initialamount, string tocurrency, IProgress<int> progress)
         {
             const string key = "c6469effe16603f8a5b21335e6b9b027";
             Rates rates = GetCurrencyRates(key);
@@ -58,7 +58,11 @@ namespace PublicAPILibrary
                 Convert.ToDecimal(typeof(Rates).GetProperty(tocurrency)?.GetValue(rates));
             var finalAmount =
                 Math.Round(((initialamount / selectedFromCurrencyRateValue) * selectedToCurrencyRateValue), 2);
-            await Task.Delay(5000);
+            for (int i = 0; i < 120; i++)
+            {
+                await Task.Delay(40); //.ConfigureAwait(false); // ConfigureAwait(false) avoiding deadlock
+                progress?.Report(i);
+            }
 
             return finalAmount;
         }
