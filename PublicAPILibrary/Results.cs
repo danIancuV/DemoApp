@@ -1,5 +1,8 @@
-﻿namespace PublicAPILibrary
+﻿using System.Collections.Generic;
+
+namespace PublicAPILibrary
 {
+    
 
     public class Rates
     {
@@ -175,11 +178,13 @@
 
     public class RootObject
     {
+        
         public bool Success { get; set; }
         public int Timestamp { get; set; }
         public string @Base { get; set; }
         public string Date { get; set; }
         public Rates Rates { get; set; }
-    }
 
+        
+    }
 }

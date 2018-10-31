@@ -57,7 +57,7 @@ namespace PublicAPIDemoApp
             {               
                 var initialAmount = Decimal.Parse(initialAmountTextBox.Text);
                 var progressIndicator = new Progress<int>(ReportProgress);
-                Task<decimal> finalAmount = _services.ConvertAmountAsync(fromCurrency, initialAmount, toCurrency, progressIndicator);
+                Task<decimal> finalAmount = _services.ConvertAmount(fromCurrency, initialAmount, toCurrency, progressIndicator);
                 //finalAmountTextBox.Text = finalAmount.Result.ToString(CultureInfo.CurrentCulture); //deadlock (no ConfigureAwait(false))
                 
                 decimal res = await finalAmount;

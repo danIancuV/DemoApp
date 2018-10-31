@@ -33,7 +33,7 @@ namespace PublicAPILibrary
 
         public decimal GetSelectedCurrencyRate(string selectedcurrency)
         {
-            const string key = "c6469effe16603f8a5b21335e6b9b027";
+            const string key = "2413a25a1a4b771cb49ba23bd7e4807e";
             Rates currencyRates = GetCurrencyRates(key);
             decimal cadRateResult = Convert.ToDecimal(currencyRates.CAD);
             decimal eurRateResult = Convert.ToDecimal(currencyRates.EUR);
@@ -48,9 +48,9 @@ namespace PublicAPILibrary
             return -1;
         }
 
-        public async Task<decimal> ConvertAmountAsync(string fromcurrency, decimal initialamount, string tocurrency, IProgress<int> progress)
+        public async Task<decimal> ConvertAmount(string fromcurrency, decimal initialamount, string tocurrency, IProgress<int> progress)
         {
-            const string key = "c6469effe16603f8a5b21335e6b9b027";
+            const string key = "2413a25a1a4b771cb49ba23bd7e4807e";
             Rates rates = GetCurrencyRates(key);
             decimal selectedFromCurrencyRateValue =
                 Convert.ToDecimal(typeof(Rates).GetProperty(fromcurrency)?.GetValue(rates));
@@ -63,6 +63,25 @@ namespace PublicAPILibrary
                 await Task.Delay(40); //.ConfigureAwait(false); // ConfigureAwait(false) avoiding deadlock
                 progress?.Report(i);
             }
+
+            return finalAmount;
+        }
+
+        public decimal ConvertAmount(string fromcurrency, string tocurrency, decimal initialamount)
+        {
+            const string key = "2413a25a1a4b771cb49ba23bd7e4807e";
+            Rates rates = GetCurrencyRates(key);
+            decimal selectedFromCurrencyRateValue =
+                Convert.ToDecimal(typeof(Rates).GetProperty(fromcurrency)?.GetValue(rates));
+            decimal selectedToCurrencyRateValue =
+                Convert.ToDecimal(typeof(Rates).GetProperty(tocurrency)?.GetValue(rates));
+            var finalAmount =
+                Math.Round(((initialamount / selectedFromCurrencyRateValue) * selectedToCurrencyRateValue), 2);
+            //for (int i = 0; i < 120; i++)
+            //{
+            //    await Task.Delay(40); //.ConfigureAwait(false); // ConfigureAwait(false) avoiding deadlock
+               
+            //}
 
             return finalAmount;
         }

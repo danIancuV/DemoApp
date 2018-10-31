@@ -111,9 +111,7 @@ namespace DbCoreLibrary.DbServiceModel
         public bool IsDuplicate(string fileName)
         {
             var dbFileName = fileName.Split('.')[0];
-            var isDuplicate = false;
-            if (_context.SerializedFile.Any(s => s.Name.Contains(dbFileName)))
-                isDuplicate = true;
+            var isDuplicate = _context.SerializedFile.Any(s => s.Name.Contains(dbFileName));
             return isDuplicate;
         }
 
