@@ -4643,6 +4643,21 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "DbCoreLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.1",
+        "dependencies": {
+          "Microsoft.AspNetCore": "2.1.2",
+          "Microsoft.EntityFrameworkCore.SqlServer": "2.1.1",
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "compile": {
+          "bin/placeholder/DbCoreLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DbCoreLibrary.dll": {}
+        }
       }
     }
   },
@@ -12296,11 +12311,16 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "DbCoreLibrary/1.0.0": {
+      "type": "project",
+      "path": "../DbCoreLibrary/DbCoreLibrary.csproj",
+      "msbuildProject": "../DbCoreLibrary/DbCoreLibrary.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "D:\\APP\\TextFileDemoApp\\DbCoreLibrary\\DbCoreLibrary.csproj",
+      "DbCoreLibrary >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.1",
@@ -12377,16 +12397,5 @@
         "warn": true
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1105",
-      "level": "Error",
-      "message": "Unable to find project information for 'D:\\APP\\TextFileDemoApp\\DbCoreLibrary\\DbCoreLibrary.csproj'. The project file may be invalid or missing targets required for restore.",
-      "libraryId": "D:\\APP\\TextFileDemoApp\\DbCoreLibrary\\DbCoreLibrary.csproj",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.1"
-      ]
-    }
-  ]
+  }
 }

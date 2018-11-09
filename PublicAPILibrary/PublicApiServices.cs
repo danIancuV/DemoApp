@@ -80,7 +80,7 @@ namespace PublicAPILibrary
            
             await Task.Delay(8000); //.ConfigureAwait(false); // ConfigureAwait(false) avoiding deadlock
             
-            return finalAmount;
+            return finalAmount; 
         }
 
         public List<string> GetRatesList(string key)

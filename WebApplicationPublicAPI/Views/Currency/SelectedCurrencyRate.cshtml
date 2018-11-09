@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Selected Currencies";
+    List<string> currencyList = ViewBag.listofcurrencies;
+}
+
+<h2>Select currencies</h2>
+
+@using (Html.BeginForm("SelectedCurrencyRate", "Currency", FormMethod.Post))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.Label("Choose currency")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DropDownList("selectedCurrency", new SelectList(currencyList), "Select currency")
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="GetRate" class="btn btn-primary" /><br>
+}
+<p><span style="color: red">@ViewBag.error</span></p>
+@Html.Label("Value:")
+<input type="number" , name="selectedRate" value="@ViewBag.selectedRate" readonly>
+

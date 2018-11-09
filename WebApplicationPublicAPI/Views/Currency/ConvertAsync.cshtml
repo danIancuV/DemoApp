@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Converter";
+    List<string> currencyList = ViewBag.listofcurrencies;
+}
+
+<h2>Currency Converter</h2>
+
+@using (Html.BeginForm("ConvertAsync", "Currency", FormMethod.Post))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.Label("From Currency ------ Initial Amount")
+
+                </th>
+                <th>
+                    @Html.Label("To Currency")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DropDownList("fromCurrency", new SelectList(currencyList), "Select currency")
+                    <input type="number" , name="initialAmount" value="" required />
+
+                </td>
+                <td>
+                    @Html.DropDownList("toCurrency", new SelectList(currencyList), "Select currency")
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Convert" class="btn btn-primary" /><br>
+}
+<p><span style="color: red">@ViewBag.error</span></p>
+@Html.Label("Final Amount:")
+<input type="number" , name="finalAmount" value="@ViewBag.finalAmount" readonly>
+@Html.Label("Elapsed Time(ms):")
+<a><span style="color: red">@ViewBag.elapsedTime</span></a>
+
+
+
+
+
