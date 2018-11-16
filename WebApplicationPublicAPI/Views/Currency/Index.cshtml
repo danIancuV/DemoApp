@@ -1,5 +1,5 @@
 ﻿@using Microsoft.CodeAnalysis.Host
-@model PublicAPILibrary.Rates
+@model List<RateDto>
 
 @{
     ViewData["Title"] = "View";
@@ -7,7 +7,7 @@
 
 <h2>Currency Rates</h2>
 
-<table class="table">
+<table>
     <thead>
         <tr>
             <th>
@@ -18,17 +18,60 @@
             </th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var prop in Model.GetType().GetProperties())
+    <tbody id="table">
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
-                    @prop.Name
+                    @item.Name
                 </td>
                 <td>
-                    @prop.GetValue(Model, null)
+                    @item.Value
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<button id="next" , value="hello" class="next">NEXT>>></button>
+
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    var page = 1;
+    $("#next").on('click',
+        function() {
+            $.ajax({
+                type: 'GET',
+                url: '/currency/getjsonrates/',
+                data: { "page": page },
+                dataType: 'json',
+                success: function(data) {
+                    if (data != null) {
+                        for (var i = 0; i < data.length; i++) {
+                            var tr = (
+                                `<tr><td>${data[i].name}</td><td>${data[i].value}</td></tr>`
+                            );
+                            $("tr:odd").css("background-color", "#F0F8FF");
+                            $("#table").append(tr);
+                            
+                        }
+                        page++;
+                    }
+                },
+                beforeSend: function() {
+                    $("#progress").show();
+                },
+                complete: function() {
+                    $("#progress").hide();
+                },
+                error: function() {
+                    alert("Error while retrieving data!");
+                }
+            });
+        });
+</script>
+
+
+
+
+

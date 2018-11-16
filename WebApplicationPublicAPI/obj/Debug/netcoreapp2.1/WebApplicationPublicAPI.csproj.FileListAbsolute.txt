@@ -36,4 +36,4 @@ D:\App\TextFileDemoApp\WebApplicationPublicAPI\obj\Debug\netcoreapp2.1\Razor\Vie
 D:\APP\TextFileDemoApp\WebApplicationPublicAPI\obj\Debug\netcoreapp2.1\Razor\Views\Currency\InstantUsdRate.g.cshtml.cs
 D:\APP\TextFileDemoApp\WebApplicationPublicAPI\obj\Debug\netcoreapp2.1\Razor\Views\Currency\SelectedCurrencyRate.g.cshtml.cs
 D:\APP\TextFileDemoApp\WebApplicationPublicAPI\obj\Debug\netcoreapp2.1\Razor\Views\Currency\ConvertAsync.g.cshtml.cs
-D:\APP\TextFileDemoApp\WebApplicationPublicAPI\obj\Debug\netcoreapp2.1\Razor\Views\Currency\View.g.cshtml.cs
+D:\App\TextFileDemoApp\WebApplicationPublicAPI\obj\Debug\netcoreapp2.1\Razor\Views\Currency\RateList.g.cshtml.cs
