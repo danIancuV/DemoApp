@@ -1,5 +1,5 @@
 ﻿@using Microsoft.CodeAnalysis.Host
-@model List<RateDto>
+@model IEnumerable<RateDto>
 
 @{
     ViewData["Title"] = "View";
@@ -11,29 +11,34 @@
     <thead>
         <tr>
             <th>
-                <h4>Currencies</h4>
+                <h4>Currency</h4>
             </th>
             <th>
-                <h4>Values</h4>
+                <h4>-------</h4>
+            </th>
+            <th>
+                <h4>Value</h4>
             </th>
         </tr>
     </thead>
     <tbody id="table">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @item.Value
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(valueItem => item.Name)
+            </td>
+            <td>
+            </td>
+            <td>
+                @Html.DisplayFor(valueItem => item.Value)
+            </td>
+        </tr>
         }
     </tbody>
 </table>
 
-<button id="next" , value="hello" class="next">NEXT>>></button>
+<button id="next" , value="add" class="btn btn-primary btn-sm">>>></button>
 
 <script src="~/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
@@ -49,7 +54,8 @@
                     if (data != null) {
                         for (var i = 0; i < data.length; i++) {
                             var tr = (
-                                `<tr><td>${data[i].name}</td><td>${data[i].value}</td></tr>`
+                                `<tr><td>${data[i].name}</td><td>
+                                    </td><td>${data[i].value}</td></tr>`
                             );
                             $("tr:odd").css("background-color", "#F0F8FF");
                             $("#table").append(tr);

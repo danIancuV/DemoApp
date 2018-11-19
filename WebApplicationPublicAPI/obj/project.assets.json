@@ -12301,11 +12301,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\APP\\TextFileDemoApp\\WebApplicationPublicAPI\\WebApplicationPublicAPI.csproj",
+      "projectUniqueName": "D:\\App\\TextFileDemoApp\\WebApplicationPublicAPI\\WebApplicationPublicAPI.csproj",
       "projectName": "WebApplicationPublicAPI",
-      "projectPath": "D:\\APP\\TextFileDemoApp\\WebApplicationPublicAPI\\WebApplicationPublicAPI.csproj",
+      "projectPath": "D:\\App\\TextFileDemoApp\\WebApplicationPublicAPI\\WebApplicationPublicAPI.csproj",
       "packagesPath": "C:\\Users\\dan.iancu\\.nuget\\packages\\",
-      "outputPath": "D:\\APP\\TextFileDemoApp\\WebApplicationPublicAPI\\obj\\",
+      "outputPath": "D:\\App\\TextFileDemoApp\\WebApplicationPublicAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -12324,8 +12324,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "D:\\APP\\TextFileDemoApp\\PublicAPILibrary\\PublicAPILibrary.csproj": {
-              "projectPath": "D:\\APP\\TextFileDemoApp\\PublicAPILibrary\\PublicAPILibrary.csproj"
+            "D:\\App\\TextFileDemoApp\\PublicAPILibrary\\PublicAPILibrary.csproj": {
+              "projectPath": "D:\\App\\TextFileDemoApp\\PublicAPILibrary\\PublicAPILibrary.csproj"
             }
           }
         }
